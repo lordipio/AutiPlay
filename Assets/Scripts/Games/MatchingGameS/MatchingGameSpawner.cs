@@ -18,6 +18,10 @@ public class MatchingGameSpawner : MonoBehaviour
 
     LineRenderer line;
 
+    int matchedIconsNumber = 0;
+
+    [SerializeField] const int iconsCount = 4;
+
     enum SelectedIconSide
     {
         top,
@@ -33,15 +37,10 @@ public class MatchingGameSpawner : MonoBehaviour
         line = gameObject.AddComponent<LineRenderer>();
         line.positionCount = 2;
         line.startWidth = 0.5f;
-        line.endWidth = 0.5f;
+        line.endWidth = 0.2f;
         line.enabled = false;
 
         SpawnIcons();
-
-
-      
-
-
     }
 
 
@@ -95,6 +94,8 @@ public class MatchingGameSpawner : MonoBehaviour
 
     void SpawnIcons()
     {
+        matchedIconsNumber = 0;
+
         selectedIconIndex = -1;
 
         topMatchingIcon = new List<MatchingIcon>();
@@ -102,7 +103,6 @@ public class MatchingGameSpawner : MonoBehaviour
         buttomMatchingIcon = new List<MatchingIcon>();
 
         lines = new List<LineRenderer>();
-
 
 
         List<Vector2> Positions = SpawnUtility.GetUpDividedPositions(4);
@@ -114,9 +114,9 @@ public class MatchingGameSpawner : MonoBehaviour
         List<MatchingIcon> matchingIcons = new List<MatchingIcon>();
 
 
-        Texture2D[] allTextures = SpawnUtility.LoadTextures(SpawnUtility.IconTypes.Animals);
+        Texture2D[] allTextures = SpawnUtility.LoadTextures(SpawnUtility.IconTypes.Education);
 
-        List<int> texturesRandomSelection = SpawnUtility.RandomNumberGenerator(0, allTextures.Length - 1, 5);
+        List<int> texturesRandomSelection = SpawnUtility.RandomNumberGenerator(0, allTextures.Length - 1, iconsCount + 1);
 
         List<Texture2D> textures = new List<Texture2D>();
 
@@ -154,7 +154,7 @@ public class MatchingGameSpawner : MonoBehaviour
 
         temp = 0;
 
-        texturesRandomSelection = SpawnUtility.RandomNumberGenerator(0, 4, 5);
+        texturesRandomSelection = SpawnUtility.RandomNumberGenerator(0, iconsCount, iconsCount + 1);
 
         foreach (Vector2 position in Positions)
         {
@@ -192,7 +192,14 @@ public class MatchingGameSpawner : MonoBehaviour
 
             CreateNewLine(topMatchingIcon[iconIndex].holderKnob.transform.position, collidedMatchingIcon.holderKnob.transform.position);
 
-            print("SEX");
+            DeactiveIcon(topMatchingIcon[selectedIconIndex]);
+
+            DeactiveIcon(collidedMatchingIcon);
+
+            matchedIconsNumber++;
+
+            if (matchedIconsNumber >= iconsCount)
+                StartCoroutine(RemoveObjects());
 
         }
 
@@ -218,8 +225,15 @@ public class MatchingGameSpawner : MonoBehaviour
         if (iconIndex == selectedIconIndex && selectedIconSide == SelectedIconSide.top)
         {
             CreateNewLine(topMatchingIcon[selectedIconIndex].holderKnob.transform.position, collidedMatchingIcon.holderKnob.transform.position);
-            print("SEX");
-            StartCoroutine(RemoveObjects());
+            
+            DeactiveIcon(topMatchingIcon[selectedIconIndex]);
+
+            DeactiveIcon(collidedMatchingIcon);
+
+            matchedIconsNumber++;
+
+            if (matchedIconsNumber >= iconsCount)
+                StartCoroutine(RemoveObjects());
         }
 
         selectedIconIndex = iconIndex;
@@ -237,15 +251,23 @@ public class MatchingGameSpawner : MonoBehaviour
     {
         GameObject lineObj = new GameObject("Line");
         LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+
+        lr.material.color = Color.green;
         lr.positionCount = 2;
-        lr.startWidth = 0.2f;
-        lr.endWidth = 0.2f;
+        lr.startWidth = 0.5f;
+        lr.endWidth = 0.5f;
         lr.SetPosition(0, startPos);
         lr.SetPosition(1, endPos);
         lr.enabled = true;
         lines.Add(lr);
     }
 
+
+    void DeactiveIcon(MatchingIcon icon)
+    {
+        icon.circleCollider.enabled = false;
+        icon.spriteRenderer.color = new Color(icon.spriteRenderer.color.r, icon.spriteRenderer.color.g, icon.spriteRenderer.color.b, 0.7f);
+    }
 
     IEnumerator RemoveObjects()
     {

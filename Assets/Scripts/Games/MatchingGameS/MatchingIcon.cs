@@ -6,7 +6,7 @@ public class MatchingIcon : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public GameObject holderKnob;
-    private CircleCollider2D circleCollider;
+    public CircleCollider2D circleCollider;
     [HideInInspector] public int iconIndex = -1;
 
     public delegate void OnIconCollided(int iconIndex);

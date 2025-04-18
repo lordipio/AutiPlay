@@ -122,8 +122,7 @@ public class SpawnUtility
         }
 
 
-
-        return Resources.LoadAll<Texture2D>("Icons/Animals/");
+        return Resources.LoadAll<Texture2D>("Icons/" + iconTypeFolderName);
     }
 
 
