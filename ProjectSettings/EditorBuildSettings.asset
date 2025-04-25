@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 8ff12e99dbc6c6c4c98255179acc2d75
+  - enabled: 1
+    path: Assets/Scenes/MatchingGame.unity
+    guid: 70a9661066dba71478be800c1119b2fa
+  - enabled: 1
+    path: Assets/Scenes/SortingGame.unity
+    guid: dd0e58b9d664812488234aa7aafc6ac5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -10,7 +10,7 @@ public class SpawnUtility
         Animals,
         Education,
         Farm,
-        FruitsAndVegetable,
+        Fruits,
         HomeAppliances,
         HumanBody,
         Nature
@@ -112,8 +112,8 @@ public class SpawnUtility
                 iconTypeFolderName = "Human Body";
                 break;
 
-            case IconTypes.FruitsAndVegetable:
-                iconTypeFolderName = "Fruits and Vegetable";
+            case IconTypes.Fruits:
+                iconTypeFolderName = "Fruits";
                 break;
 
             case IconTypes.Education:
@@ -125,6 +125,12 @@ public class SpawnUtility
         return Resources.LoadAll<Texture2D>("Icons/" + iconTypeFolderName);
     }
 
+
+    public static Texture2D[] LoadTextures(string iconCategory)
+    {
+        if (iconCategory == "") { MonoBehaviour.print("icon category string is empty!"); }
+        return Resources.LoadAll<Texture2D>("Icons/" + iconCategory);
+    }
 
 
     public static List <int> RandomNumberGenerator(int min, int max, int length) // with no repetition

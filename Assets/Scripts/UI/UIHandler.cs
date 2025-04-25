@@ -1,71 +1,57 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static MatchingGamesCategoryMenu;
 
 public class UIHandler : MonoBehaviour
 {
-    [SerializeField] MainMenu mainMenu;
-    
-    [SerializeField] GamesMenu gamesMenu;
+    public GameObject mainMenu;
 
+    public GameObject gamesMenu;
+
+    public GameObject matchingGamesCategoryMenu;
+
+
+    public static UIHandler instance;
+
+    [HideInInspector] public string matchingGameCategoryName = "";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mainMenu = Instantiate(mainMenu);
+        if (instance == null)
+            instance = this;
 
-        gamesMenu = Instantiate(gamesMenu);
+        else
+            Destroy(gameObject);
 
-        gamesMenu.gameObject.SetActive(false);
-
-
-        mainMenu.OnGamesButtonClickedEvent += OnGamesButtonClicked;
-        mainMenu.OnExitButtonClickedEvent += OnExitButtonClicked;
-        mainMenu.OnOptionButtonClickedEvent += OnOptionButtonClicked;
-
-        gamesMenu.OnBackButtonClickedEvent += OnBackButtonClicked;
-        gamesMenu.OnMatchingButtonClickedEvent += OnMatchingButtonClicked;
-        gamesMenu.OnPatternsButtonClickedEvent += OnPatternsButtonClicked;
-        gamesMenu.OnSortingButtonClickedEvent += OnSortingButtonClicked;
+        SetupMainMenuPage();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void SetupMainMenuPage()
     {
-        
+        ScreenOrientationUtilities.SetPortrait();
+
+        ActivateUIMenu(mainMenu);
     }
 
-    void OnPatternsButtonClicked()
-    {
-    }
 
-    void OnMatchingButtonClicked()
-    {
-    }
-
-    void OnSortingButtonClicked()
-    {
-    }
-
-    void OnBackButtonClicked()
-    {
-        mainMenu.gameObject.SetActive(true);
-
-        gamesMenu.gameObject.SetActive(false);
-    }
-
-/// 
-    void OnGamesButtonClicked()
+    public void DeactiveAll()
     {
         mainMenu.gameObject.SetActive(false);
-        
-        gamesMenu.gameObject.SetActive(true);
 
+        gamesMenu.gameObject.SetActive(false);
+
+        matchingGamesCategoryMenu.gameObject.SetActive(false);
     }
 
-    void OnOptionButtonClicked()
+
+    public void ActivateUIMenu(GameObject menuPage)
     {
+        DeactiveAll();
+
+        menuPage.SetActive(true);
     }
 
-    void OnExitButtonClicked()
-    {
-    }
 }
