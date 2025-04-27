@@ -64,36 +64,7 @@ public class MatchingGameHandler : MonoBehaviour
 
         line.SetPosition(1, mousePos);
 
-//#if UNITY_EDITOR
-//        // استفاده از موس توی ادیتور
-//        if (Input.GetMouseButtonDown(0))
-//                {
-//                    Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-//                    Collider2D hit = Physics2D.OverlapPoint(worldPoint);
 
-//                    if (hit != null && hit == GetComponent<Collider2D>())
-//                    {
-//                        Debug.Log("Clicked on the circle!");
-//                    }
-//                }
-//        #else
-//                // استفاده از تاچ توی موبایل
-//                if (Input.touchCount > 0)
-//                {
-//                    Touch touch = Input.GetTouch(0);
-
-//                    if (touch.phase == TouchPhase.Began)
-//                    {
-//                        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(touch.position);
-//                        Collider2D hit = Physics2D.OverlapPoint(worldPoint);
-
-//                        if (hit != null && hit == GetComponent<Collider2D>())
-//                        {
-//                            Debug.Log("Touched the circle!");
-//                        }
-//                    }
-//                }
-//        #endif
     }
 
     void SpawnIcons()
@@ -149,7 +120,7 @@ public class MatchingGameHandler : MonoBehaviour
             tempMatchingIcon.iconIndex = temp;
             topMatchingIcon.Add(tempMatchingIcon);
 
-            tempMatchingIcon.onIconCollided += OnTopIconCollided;
+            tempMatchingIcon.onIconMouseCollided += OnTopIconCollided;
 
             temp++;
 
@@ -177,7 +148,7 @@ public class MatchingGameHandler : MonoBehaviour
 
             buttomMatchingIcon.Add(tempMatchingIcon);
 
-            tempMatchingIcon.onIconCollided += OnButtomIconCollided;
+            tempMatchingIcon.onIconMouseCollided += OnButtomIconCollided;
 
             temp++;
         }

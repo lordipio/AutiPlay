@@ -21,13 +21,13 @@ public class MatchingIcon : GeneralIcon
 
     public void OnMouseDown() // touch
     {
-        onIconCollided?.Invoke(iconIndex);
+        onIconMouseCollided?.Invoke(iconIndex);
     }
 
     public void OnMouseEnter()
     {
         if (Input.GetMouseButton(0))
-           onIconCollided?.Invoke(iconIndex);
+           onIconMouseCollided?.Invoke(iconIndex);
     }
 
 }

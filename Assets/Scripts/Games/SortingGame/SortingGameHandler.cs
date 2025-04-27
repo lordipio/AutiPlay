@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+
 
 public class SortingGameHandler : MonoBehaviour
 {
@@ -29,12 +29,6 @@ public class SortingGameHandler : MonoBehaviour
 
         StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, SpawnIcons));
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void SpawnIcons()
@@ -124,9 +118,9 @@ public class SortingGameHandler : MonoBehaviour
 
         collideCoroutine = null;
 
-        SortingGameCharacter.instance.transform.position = characterInitialPosition;
-
         yield return new WaitForSeconds(1f);
+
+        SortingGameCharacter.instance.transform.position = characterInitialPosition;
 
         SpawnIcons();
     }

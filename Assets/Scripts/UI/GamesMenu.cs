@@ -35,7 +35,7 @@ public class GamesMenu : MonoBehaviour
 
     public void OnPatternsButtonClicked()
     {
-
+        SceneManager.LoadScene("PatternGame");
     }
 
     public void OnMatchingButtonClicked()

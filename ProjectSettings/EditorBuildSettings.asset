@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SortingGame.unity
     guid: dd0e58b9d664812488234aa7aafc6ac5
+  - enabled: 1
+    path: Assets/Scenes/PatternGame.unity
+    guid: a4f3ed7885fe9934e9e56f1afc08e118
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
