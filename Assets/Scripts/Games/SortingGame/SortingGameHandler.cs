@@ -10,7 +10,9 @@ public class SortingGameHandler : MonoBehaviour
 {
 
     public Material transitionMaterial;
-    public float transitionTime = 2f;
+    public float transitionTime = 4f;
+
+    public float transitionSpeed = 4f;
 
     private float currentRadius = 1.0f;
 
@@ -18,7 +20,9 @@ public class SortingGameHandler : MonoBehaviour
 
     // private bool closing = true;
 
+    Coroutine fadeInCoroutine;
 
+    Coroutine fadeOutCoroutine;
 
 
     [SerializeField] GameObject matchingIconGO;
@@ -137,9 +141,9 @@ public class SortingGameHandler : MonoBehaviour
 
     IEnumerator RemoveObjects()
     {
-        Coroutine fadeInCoroutine = StartCoroutine(FadeTransition(true));
+        fadeInCoroutine = StartCoroutine(FadeTransition(true));
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         if (sortingIcons.Count > 0)
             foreach (SortingIcon sortingIcon in sortingIcons)
@@ -150,18 +154,16 @@ public class SortingGameHandler : MonoBehaviour
 
         collideCoroutine = null;
 
-        StopCoroutine(fadeInCoroutine);
+        // StopCoroutine(fadeInCoroutine);
         
-        fadeInCoroutine = null;
+        // fadeInCoroutine = null;
 
-
-        yield return new WaitForSeconds(1f);
 
         SortingGameCharacter.instance.transform.position = characterInitialPosition;
 
         SpawnIcons();
 
-        StartCoroutine(FadeTransition(false));
+        fadeOutCoroutine = StartCoroutine(FadeTransition(false));
 
     }
 
@@ -173,12 +175,16 @@ public class SortingGameHandler : MonoBehaviour
             if (currentRadius < 0 && closing)
             {
                 currentRadius = 0;
+                StopCoroutine(fadeInCoroutine);
+                fadeInCoroutine = null;
                 break;
             }
 
             if (currentRadius > maxRadius && !closing)
             {
                 currentRadius = maxRadius;
+                StopCoroutine(fadeOutCoroutine);
+                fadeOutCoroutine = null;
                 break;
             }
 
@@ -196,7 +202,7 @@ public class SortingGameHandler : MonoBehaviour
             //transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
 
             // آپدیت اندازه سوراخ
-            float delta = Time.deltaTime / transitionTime;
+            float delta = transitionSpeed * Time.deltaTime / transitionTime;
             if (closing)
                 currentRadius -= delta;
             else
