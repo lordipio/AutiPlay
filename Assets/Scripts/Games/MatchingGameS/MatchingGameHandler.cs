@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -14,7 +13,13 @@ public class MatchingGameHandler : MonoBehaviour
 
     List<LineRenderer> lines = new List<LineRenderer>();
 
+    [SerializeField] ParticleSystem confettiTop;
+    
+    [SerializeField] ParticleSystem confettiButtom;
+
+
     int selectedIconIndex = -1;
+
 
     LineRenderer line;
 
@@ -44,6 +49,12 @@ public class MatchingGameHandler : MonoBehaviour
 
         matchingGameIconCategory = MatchingGameCategoryData.MatchingGameCategory;
 
+        confettiTop = Instantiate<ParticleSystem>(confettiTop);
+        confettiButtom = Instantiate<ParticleSystem>(confettiButtom);
+
+        confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
         StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, SpawnIcons));
     }
 
@@ -64,7 +75,7 @@ public class MatchingGameHandler : MonoBehaviour
 
         line.SetPosition(1, mousePos);
 
-
+        HandleTouchOrMouseInput();
     }
 
     void SpawnIcons()
@@ -153,6 +164,8 @@ public class MatchingGameHandler : MonoBehaviour
             temp++;
         }
 
+        StartCoroutine(IconsFadeIn(2f));
+
     }
 
 
@@ -219,7 +232,7 @@ public class MatchingGameHandler : MonoBehaviour
 
         line.SetPosition(0, collidedMatchingIcon.holderKnob.transform.position);
 
-        print(iconIndex);
+        // print(iconIndex);
     }
 
 
@@ -227,8 +240,11 @@ public class MatchingGameHandler : MonoBehaviour
     {
         GameObject lineObj = new GameObject("Line");
         LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Sprites/Default"));
 
-        lr.material.color = Color.green;
+        Color greenColor = Color.green;
+        greenColor.a = 0.8f;
+        lr.material.color = greenColor;
         lr.positionCount = 2;
         lr.startWidth = 0.5f;
         lr.endWidth = 0.5f;
@@ -247,10 +263,92 @@ public class MatchingGameHandler : MonoBehaviour
 
     IEnumerator RemoveObjects()
     {
-        yield return new WaitForSeconds(2f);
-        
+        confettiTop.Play();
+        confettiButtom.Play();
+
+
+        yield return new WaitForSeconds(1f);
+
+
+        StartCoroutine(IconsFadeOut(1f));
+
+
+
+        yield return new WaitForSeconds(1f);
+
+        confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        SpawnIcons();
+
+    }
+
+
+    IEnumerator IconsFadeOut(float alphaReductionSpeed)
+    {
+
+        while (true)
+        {
+            bool temp = false;
+
+            if (topMatchingIcon.Count > 0)
+                foreach (MatchingIcon matchingIcon in topMatchingIcon)
+                {
+                    if (matchingIcon.spriteRenderer.color.a <= 0)
+                    {
+                        matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 0);
+                        continue;
+                    }
+
+                    matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, matchingIcon.spriteRenderer.color.a - Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+
+            if (buttomMatchingIcon.Count > 0)
+                foreach (MatchingIcon matchingIcon in buttomMatchingIcon)
+                {
+                    if (matchingIcon.spriteRenderer.color.a <= 0)
+                    {
+                        matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 0);
+                        continue;
+                    }
+
+                    matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, matchingIcon.spriteRenderer.color.a - Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+            if (lines.Count > 0)
+                foreach (LineRenderer lineRenderer in lines)
+                {
+                    if (lineRenderer.startColor.a <= 0)
+                    {
+                        lineRenderer.startColor  = new Color(lineRenderer.startColor.r, lineRenderer.startColor.g, lineRenderer.startColor.b, 0f);
+                        lineRenderer.endColor = lineRenderer.startColor;
+
+                        continue;
+                    }
+
+
+                    lineRenderer.startColor  = new Color(lineRenderer.startColor.r, lineRenderer.startColor.g, lineRenderer.startColor.b, lineRenderer.startColor.a - Time.deltaTime * alphaReductionSpeed);
+
+                    lineRenderer.endColor = lineRenderer.startColor;
+
+                    temp = true;
+                }
+
+
+            if (!temp)
+                break;
+
+            yield return null;
+        }
+
+
+
         if (topMatchingIcon.Count > 0)
-            foreach(MatchingIcon matchingIcon in topMatchingIcon)
+            foreach (MatchingIcon matchingIcon in topMatchingIcon)
             {
                 GameObject.Destroy(matchingIcon.gameObject);
             }
@@ -272,10 +370,102 @@ public class MatchingGameHandler : MonoBehaviour
         buttomMatchingIcon = null;
 
         lines = null;
+    }
 
 
-        yield return new WaitForSeconds(1f);
-        SpawnIcons();
+
+    IEnumerator IconsFadeIn(float alphaReductionSpeed)
+    {
+        if (topMatchingIcon.Count > 0)
+            foreach (MatchingIcon matchingIcon in topMatchingIcon)
+                matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 0f);
+
+
+        if (buttomMatchingIcon.Count > 0)
+            foreach (MatchingIcon matchingIcon in buttomMatchingIcon)
+                matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 0f);
+
+        if (topMatchingIcon.Count > 0)
+            foreach (MatchingIcon matchingIcon in topMatchingIcon)
+                matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 0f);
+
+
+        while (true)
+        {
+            bool temp = false;
+
+
+            if (topMatchingIcon.Count > 0)
+                foreach (MatchingIcon matchingIcon in topMatchingIcon)
+                {
+                    if (matchingIcon.spriteRenderer.color.a >= 1f)
+                    {
+                        matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 1);
+                        continue;
+                    }
+
+                    matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, matchingIcon.spriteRenderer.color.a + Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+
+            if (buttomMatchingIcon.Count > 0)
+                foreach (MatchingIcon matchingIcon in buttomMatchingIcon)
+                {
+                    if (matchingIcon.spriteRenderer.color.a >= 1f)
+                    {
+                        matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, 1f);
+                        continue;
+                    }
+
+                    matchingIcon.spriteRenderer.color = new Color(matchingIcon.spriteRenderer.color.r, matchingIcon.spriteRenderer.color.g, matchingIcon.spriteRenderer.color.b, matchingIcon.spriteRenderer.color.a + Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+            if (!temp)
+                break;
+
+            yield return null;
+        }
+    }
+
+    void HandleTouchOrMouseInput()
+    {
+        Vector2 screenPos = Vector2.zero;
+        bool isPressed = false;
+
+        // موبایل
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            screenPos = touch.position;
+            isPressed = touch.phase == TouchPhase.Began;
+        }
+        // کامپیوتر
+        else if (Input.GetMouseButtonDown(0))
+        {
+            screenPos = Input.mousePosition;
+            isPressed = true;
+        }
+
+        if (!isPressed)
+            return;
+
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            MatchingIcon icon = hit.collider.GetComponent<MatchingIcon>();
+
+            if (icon != null)
+            {
+                icon.onIconMouseCollided?.Invoke(icon.iconIndex);
+            }
+        }
     }
 }
 

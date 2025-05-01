@@ -11,13 +11,12 @@ public class PatternIcon : GeneralIcon
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("BRUH");
         onIconCollided?.Invoke(collision, iconIndex);
     }
 
 
 
-    public void OnMouseDown() // touch
+    public void OnMouseDown()
     {
         onIconMouseCollided?.Invoke(iconIndex);
     }

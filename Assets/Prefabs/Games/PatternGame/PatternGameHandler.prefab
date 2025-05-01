@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchingIconGO: {fileID: 1873962531444186952, guid: 5f305aa4f10a33e48afaf7d9fb7c7c47, type: 3}
+  confettiTop: {fileID: 5172126150689712633, guid: 3b0307a96dfaa9e428b47c8049c91dc4, type: 3}
+  confettiButtom: {fileID: 1163917941863930400, guid: 5acd185c9f1509d4d82b7ed81e125ded, type: 3}

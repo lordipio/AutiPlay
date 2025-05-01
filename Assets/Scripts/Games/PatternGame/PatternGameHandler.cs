@@ -22,9 +22,19 @@ public class PatternGameHandler : MonoBehaviour
 
     int succesfulMatch = 0;
 
+    [SerializeField] ParticleSystem confettiTop;
+    
+    [SerializeField] ParticleSystem confettiButtom;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        confettiTop = Instantiate<ParticleSystem>(confettiTop);
+        confettiButtom = Instantiate<ParticleSystem>(confettiButtom);
+
+        confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
         StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, SpawnIcons));
     }
 
@@ -36,14 +46,14 @@ public class PatternGameHandler : MonoBehaviour
             draggedIconIndex = -1;
         }
 
-
         if (draggedIconIndex != -1)
         {
-            print("pattern icons: " + draggedIconIndex);
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            patternIcons[draggedIconIndex].transform.position = mousePos;
+            Vector2 inputPos = GetInputPosition();
+            if (inputPos != Vector2.zero)
+                patternIcons[draggedIconIndex].transform.position = Camera.main.ScreenToWorldPoint(inputPos);
         }
 
+        HandleTouchOrClick();
     }
 
     private void SpawnIcons()
@@ -83,7 +93,7 @@ public class PatternGameHandler : MonoBehaviour
             texture,
             new Rect(0, 0, texture.width, texture.height),
             new Vector2(0.5f, 0.5f));
-
+        
         foreach (Vector2 position in TopIconsPositions)
         {
             iconPosition = position;
@@ -153,6 +163,8 @@ public class PatternGameHandler : MonoBehaviour
             temp++;
         }
 
+        StartCoroutine(IconsFadeIn(2f));
+
     }
 
     void OnIconHolderCollided(Collider2D otherCollider, int currentIconIndex)
@@ -190,7 +202,69 @@ public class PatternGameHandler : MonoBehaviour
 
     IEnumerator RemoveObjects()
     {
-        yield return new WaitForSeconds(2f);
+        confettiTop.Play();
+        confettiButtom.Play();
+
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(IconsFadeOut(2f));
+
+
+
+
+        yield return new WaitForSeconds(1f);
+
+        confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        SpawnIcons();
+    }
+
+    IEnumerator IconsFadeOut(float alphaReductionSpeed)
+    {
+
+
+        while (true) 
+        {
+            bool temp = false;
+
+            ;
+
+            if (patternIcons.Count > 0)
+                foreach (PatternIcon patternIcon in patternIcons)
+                {
+                    if (patternIcon.spriteRenderer.color.a <= 0)
+                    {
+                        patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, 0);
+                        continue;
+                    }
+
+                    patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, patternIcon.spriteRenderer.color.a - Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+            collideCoroutine = null;
+
+            if (patternIconHolders.Count > 0)
+                foreach (PatternIcon patternIcon in patternIconHolders)
+                {
+                    if (patternIcon.spriteRenderer.color.a <= 0)
+                    {
+                        patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, 0);
+                        continue;
+                    }
+
+                        patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, patternIcon.spriteRenderer.color.a - Time.deltaTime * alphaReductionSpeed);
+
+                        temp = true;
+                }
+
+            if (!temp)
+                break;
+
+            yield return null;
+        }
 
         if (patternIcons.Count > 0)
             foreach (PatternIcon sortingIcon in patternIcons)
@@ -202,12 +276,123 @@ public class PatternGameHandler : MonoBehaviour
 
         if (patternIconHolders.Count > 0)
             foreach (PatternIcon patternIcon in patternIconHolders)
-            { 
+            {
                 GameObject.Destroy(patternIcon.gameObject);
             }
 
-        yield return new WaitForSeconds(1f);
-
-        SpawnIcons();
     }
+
+
+    IEnumerator IconsFadeIn(float alphaReductionSpeed)
+    {
+
+        Dictionary<PatternIcon, float> patternIconTargetAlpha = new Dictionary<PatternIcon, float>();
+        Dictionary<PatternIcon, float> patternIconHolderTargetAlpha = new Dictionary<PatternIcon, float>();
+
+
+        if (patternIcons.Count > 0)
+            foreach (PatternIcon patternIcon in patternIcons)
+            { 
+                patternIconTargetAlpha.Add(patternIcon, patternIcon.spriteRenderer.color.a);
+                patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, 0);
+            }
+
+
+        if (patternIconHolders.Count > 0)
+            foreach (PatternIcon patternIcon in patternIconHolders)
+            {
+                patternIconHolderTargetAlpha.Add(patternIcon, patternIcon.spriteRenderer.color.a);
+                patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, 0);
+
+            }
+
+
+        while (true)
+        {
+            bool temp = false;
+
+            if (patternIcons.Count > 0)
+                foreach (PatternIcon patternIcon in patternIcons)
+                {
+                    if (patternIcon.spriteRenderer.color.a >= patternIconTargetAlpha[patternIcon])
+                    {
+                        patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, patternIconTargetAlpha[patternIcon]);
+                        continue;
+                    }
+
+                    patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, patternIcon.spriteRenderer.color.a + Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+
+            if (patternIconHolders.Count > 0)
+                foreach (PatternIcon patternIcon in patternIconHolders)
+                {
+                    if (patternIcon.spriteRenderer.color.a >= patternIconHolderTargetAlpha[patternIcon])
+                    {
+                        patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, patternIconHolderTargetAlpha[patternIcon]);
+                        continue;
+                    }
+
+                    patternIcon.spriteRenderer.color = new Color(patternIcon.spriteRenderer.color.r, patternIcon.spriteRenderer.color.g, patternIcon.spriteRenderer.color.b, patternIcon.spriteRenderer.color.a + Time.deltaTime * alphaReductionSpeed);
+
+                    temp = true;
+                }
+
+            if (!temp)
+                break;
+
+            yield return null;
+        }
+    }
+
+    private void HandleTouchOrClick()
+    {
+        Vector2 screenPos = Vector2.zero;
+        bool isPressed = false;
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                screenPos = touch.position;
+                isPressed = true;
+            }
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            screenPos = Input.mousePosition;
+            isPressed = true;
+        }
+
+        if (!isPressed)
+            return;
+
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+        if (hit.collider != null)
+        {
+            PatternIcon icon = hit.collider.GetComponent<PatternIcon>();
+            if (icon != null)
+            {
+                icon.onIconMouseCollided?.Invoke(icon.iconIndex);
+            }
+        }
+    }
+
+    private Vector2 GetInputPosition()
+    {
+        if (Input.touchCount > 0)
+            return Input.GetTouch(0).position;
+
+        if (Input.GetMouseButton(0))
+            return Input.mousePosition;
+
+        return Vector2.zero;
+    }
+
+
 }

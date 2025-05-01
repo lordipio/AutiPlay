@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static System.TimeZoneInfo;
-using static UnityEngine.GraphicsBuffer;
 
 
 public class SortingGameHandler : MonoBehaviour
@@ -219,8 +217,4 @@ public class SortingGameHandler : MonoBehaviour
         }
     }
 
-    void Kosher()
-    {
-
-    }
 }

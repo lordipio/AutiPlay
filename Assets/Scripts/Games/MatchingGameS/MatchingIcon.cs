@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 public class MatchingIcon : GeneralIcon
@@ -19,7 +18,7 @@ public class MatchingIcon : GeneralIcon
     }
 
 
-    public void OnMouseDown() // touch
+    public void OnMouseDown() 
     {
         onIconMouseCollided?.Invoke(iconIndex);
     }
@@ -30,4 +29,5 @@ public class MatchingIcon : GeneralIcon
            onIconMouseCollided?.Invoke(iconIndex);
     }
 
+    //public void on
 }
