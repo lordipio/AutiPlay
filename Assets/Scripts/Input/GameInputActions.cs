@@ -92,10 +92,19 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             ""id"": ""6042c84f-2439-4d4e-bd98-1cfc724ce341"",
             ""actions"": [
                 {
-                    ""name"": ""TouchOrClick"",
+                    ""name"": ""Press"",
                     ""type"": ""Button"",
                     ""id"": ""fe63302a-bed6-45c7-ba53-f08f9f97c96d"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""d3af4367-b97a-44bc-b651-a0d29c68abdf"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -109,7 +118,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchOrClick"",
+                    ""action"": ""Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -120,7 +129,29 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchOrClick"",
+                    ""action"": ""Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b9168af-36bb-4560-b36f-6ff6766a440a"",
+                    ""path"": ""<Pointer>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee981dd6-f141-4ec9-b52d-3234fa87f0e0"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -131,7 +162,8 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_TouchOrClick = m_Gameplay.FindAction("TouchOrClick", throwIfNotFound: true);
+        m_Gameplay_Press = m_Gameplay.FindAction("Press", throwIfNotFound: true);
+        m_Gameplay_Drag = m_Gameplay.FindAction("Drag", throwIfNotFound: true);
     }
 
     ~@GameInputActions()
@@ -212,7 +244,8 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay_TouchOrClick;
+    private readonly InputAction m_Gameplay_Press;
+    private readonly InputAction m_Gameplay_Drag;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -225,9 +258,13 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public GameplayActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Gameplay/TouchOrClick".
+        /// Provides access to the underlying input action "Gameplay/Press".
         /// </summary>
-        public InputAction @TouchOrClick => m_Wrapper.m_Gameplay_TouchOrClick;
+        public InputAction @Press => m_Wrapper.m_Gameplay_Press;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Drag".
+        /// </summary>
+        public InputAction @Drag => m_Wrapper.m_Gameplay_Drag;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -254,9 +291,12 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
-            @TouchOrClick.started += instance.OnTouchOrClick;
-            @TouchOrClick.performed += instance.OnTouchOrClick;
-            @TouchOrClick.canceled += instance.OnTouchOrClick;
+            @Press.started += instance.OnPress;
+            @Press.performed += instance.OnPress;
+            @Press.canceled += instance.OnPress;
+            @Drag.started += instance.OnDrag;
+            @Drag.performed += instance.OnDrag;
+            @Drag.canceled += instance.OnDrag;
         }
 
         /// <summary>
@@ -268,9 +308,12 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="GameplayActions" />
         private void UnregisterCallbacks(IGameplayActions instance)
         {
-            @TouchOrClick.started -= instance.OnTouchOrClick;
-            @TouchOrClick.performed -= instance.OnTouchOrClick;
-            @TouchOrClick.canceled -= instance.OnTouchOrClick;
+            @Press.started -= instance.OnPress;
+            @Press.performed -= instance.OnPress;
+            @Press.canceled -= instance.OnPress;
+            @Drag.started -= instance.OnDrag;
+            @Drag.performed -= instance.OnDrag;
+            @Drag.canceled -= instance.OnDrag;
         }
 
         /// <summary>
@@ -312,11 +355,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         /// <summary>
-        /// Method invoked when associated input action "TouchOrClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Press" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnTouchOrClick(InputAction.CallbackContext context);
+        void OnPress(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Drag" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDrag(InputAction.CallbackContext context);
     }
 }

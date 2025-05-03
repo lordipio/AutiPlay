@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class MatchingGameHandler : MonoBehaviour
@@ -17,9 +18,13 @@ public class MatchingGameHandler : MonoBehaviour
     
     [SerializeField] ParticleSystem confettiButtom;
 
+    CentralInputHandler inputHandler;
 
     int selectedIconIndex = -1;
 
+    public GameObject TEST;
+
+    public GameObject TEST2;
 
     LineRenderer line;
 
@@ -40,7 +45,6 @@ public class MatchingGameHandler : MonoBehaviour
 
     void Start()
     {
-
         line = gameObject.AddComponent<LineRenderer>();
         line.positionCount = 2;
         line.startWidth = 0.5f;
@@ -55,6 +59,8 @@ public class MatchingGameHandler : MonoBehaviour
         confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
+        StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, InitializeInputHandler));
+        
         StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, SpawnIcons));
     }
 
@@ -62,24 +68,30 @@ public class MatchingGameHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
-            line.enabled = false;
 
-            selectedIconIndex = -1;
+        if (Touchscreen.current != null)
+            TEST.transform.position += new Vector3(0f, 0f, 10f * Time.deltaTime);
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    line.enabled = false;
 
-            selectedIconSide = SelectedIconSide.none;
-        }
+            //    selectedIconIndex = -1;
 
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //    selectedIconSide = SelectedIconSide.none;
+            //}
 
-        line.SetPosition(1, mousePos);
+            //Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        HandleTouchOrMouseInput();
+            //line.SetPosition(1, mousePos);
+
+            //HandleTouchOrMouseInput();
     }
 
     void SpawnIcons()
     {
+        InitializeInputHandler();
+
+
         matchedIconsNumber = 0;
 
         selectedIconIndex = -1;
@@ -131,7 +143,7 @@ public class MatchingGameHandler : MonoBehaviour
             tempMatchingIcon.iconIndex = temp;
             topMatchingIcon.Add(tempMatchingIcon);
 
-            tempMatchingIcon.onIconMouseCollided += OnTopIconCollided;
+            // tempMatchingIcon.onIconMouseCollided += OnTopIconCollided;
 
             temp++;
 
@@ -159,7 +171,7 @@ public class MatchingGameHandler : MonoBehaviour
 
             buttomMatchingIcon.Add(tempMatchingIcon);
 
-            tempMatchingIcon.onIconMouseCollided += OnButtomIconCollided;
+            // tempMatchingIcon.onIconMouseCollided += OnButtomIconCollided;
 
             temp++;
         }
@@ -274,11 +286,7 @@ public class MatchingGameHandler : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(1f);
 
-        confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        SpawnIcons();
 
     }
 
@@ -338,7 +346,6 @@ public class MatchingGameHandler : MonoBehaviour
                     temp = true;
                 }
 
-
             if (!temp)
                 break;
 
@@ -370,6 +377,14 @@ public class MatchingGameHandler : MonoBehaviour
         buttomMatchingIcon = null;
 
         lines = null;
+
+
+
+        yield return new WaitForSeconds(1f);
+
+        confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        SpawnIcons();
     }
 
 
@@ -441,7 +456,7 @@ public class MatchingGameHandler : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             screenPos = touch.position;
-            isPressed = touch.phase == TouchPhase.Began;
+            // isPressed = touch.phase == TouchPhase.Began;
         }
         // کامپیوتر
         else if (Input.GetMouseButtonDown(0))
@@ -467,5 +482,97 @@ public class MatchingGameHandler : MonoBehaviour
             }
         }
     }
+
+
+
+
+
+    private void InitializeInputHandler()
+    {
+        if (!CentralInputHandler.Instance)
+        {
+            print("FUCK!");
+            TEST2.transform .position = Vector2.zero;
+        }
+        CentralInputHandler.Instance.OnPress += HandlePress;
+        CentralInputHandler.Instance.OnRelease += HandleRelease;
+        CentralInputHandler.Instance.OnDrag += HandleDrag;
+        
+    }
+    private void OnDisable()
+    {
+        if (CentralInputHandler.Instance == null) return;
+        CentralInputHandler.Instance.OnPress -= HandlePress;
+        CentralInputHandler.Instance.OnRelease -= HandleRelease;
+        CentralInputHandler.Instance.OnDrag -= HandleDrag;
+    }
+
+    void HandlePress(Vector2 worldPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            MatchingIcon matchingIcon = hit.collider.GetComponent<MatchingIcon>();
+            if (matchingIcon != null)
+            {
+                selectedIconIndex = matchingIcon.iconIndex;
+                matchingIcon.onIconMouseCollided?.Invoke(matchingIcon.iconIndex);
+
+                if (topMatchingIcon.Contains(matchingIcon))
+                    selectedIconSide = SelectedIconSide.top;
+                else
+                    selectedIconSide = SelectedIconSide.bottom;
+
+                line.enabled = true;
+                line.SetPosition(0, matchingIcon.holderKnob.transform.position);
+            }
+        }
+    }
+
+    void HandleDrag(Vector2 worldPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            MatchingIcon matchingIcon = hit.collider.GetComponent<MatchingIcon>();
+            if (matchingIcon != null)
+            {
+                selectedIconIndex = matchingIcon.iconIndex;
+                matchingIcon.onIconMouseCollided?.Invoke(matchingIcon.iconIndex);
+
+                // مشخص کن که بالا یا پایین بوده (با توجه به محل یا تگ یا لیستش)
+                if (topMatchingIcon.Contains(matchingIcon))
+                    selectedIconSide = SelectedIconSide.top;
+                else
+                    selectedIconSide = SelectedIconSide.bottom;
+
+                line.enabled = true;
+                
+            }
+        }
+
+        if (selectedIconIndex != -1)
+        {
+            // line.SetPosition(0, matchingIcon.holderKnob.transform.position);
+
+            line.SetPosition(1, worldPos);
+        }
+    }
+
+    void HandleRelease()
+    {
+        line.enabled = false;
+
+        selectedIconIndex = -1;
+
+        selectedIconSide = SelectedIconSide.none;
+
+        // draggedObject = null;
+    }
+
+
+
 }
 
