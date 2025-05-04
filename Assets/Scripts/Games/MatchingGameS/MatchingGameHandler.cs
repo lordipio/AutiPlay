@@ -143,7 +143,7 @@ public class MatchingGameHandler : MonoBehaviour
             tempMatchingIcon.iconIndex = temp;
             topMatchingIcon.Add(tempMatchingIcon);
 
-            // tempMatchingIcon.onIconMouseCollided += OnTopIconCollided;
+            tempMatchingIcon.onIconMouseCollided += OnTopIconCollided;
 
             temp++;
 
@@ -171,7 +171,7 @@ public class MatchingGameHandler : MonoBehaviour
 
             buttomMatchingIcon.Add(tempMatchingIcon);
 
-            // tempMatchingIcon.onIconMouseCollided += OnButtomIconCollided;
+            tempMatchingIcon.onIconMouseCollided += OnButtomIconCollided;
 
             temp++;
         }
@@ -199,9 +199,15 @@ public class MatchingGameHandler : MonoBehaviour
 
             matchedIconsNumber++;
 
+
             if (matchedIconsNumber >= iconsCount)
                 StartCoroutine(RemoveObjects());
 
+            selectedIconIndex = -1;
+
+            line.enabled = false;
+
+            return;
         }
 
 
@@ -233,8 +239,14 @@ public class MatchingGameHandler : MonoBehaviour
 
             matchedIconsNumber++;
 
+
             if (matchedIconsNumber >= iconsCount)
                 StartCoroutine(RemoveObjects());
+
+            selectedIconIndex = -1;
+            line.enabled = false;
+
+            return;
         }
 
         selectedIconIndex = iconIndex;
@@ -539,10 +551,9 @@ public class MatchingGameHandler : MonoBehaviour
             MatchingIcon matchingIcon = hit.collider.GetComponent<MatchingIcon>();
             if (matchingIcon != null)
             {
-                selectedIconIndex = matchingIcon.iconIndex;
+                // selectedIconIndex = matchingIcon.iconIndex;
                 matchingIcon.onIconMouseCollided?.Invoke(matchingIcon.iconIndex);
 
-                // مشخص کن که بالا یا پایین بوده (با توجه به محل یا تگ یا لیستش)
                 if (topMatchingIcon.Contains(matchingIcon))
                     selectedIconSide = SelectedIconSide.top;
                 else
@@ -555,10 +566,12 @@ public class MatchingGameHandler : MonoBehaviour
 
         if (selectedIconIndex != -1)
         {
-            // line.SetPosition(0, matchingIcon.holderKnob.transform.position);
-
             line.SetPosition(1, worldPos);
         }
+
+        else
+            line.enabled = false;
+
     }
 
     void HandleRelease()

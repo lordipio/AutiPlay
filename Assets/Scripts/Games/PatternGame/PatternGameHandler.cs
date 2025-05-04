@@ -26,6 +26,9 @@ public class PatternGameHandler : MonoBehaviour
     
     [SerializeField] ParticleSystem confettiButtom;
 
+    CentralInputHandler inputHandler;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,23 +44,25 @@ public class PatternGameHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
-            draggedIconIndex = -1;
-        }
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    draggedIconIndex = -1;
+        //}
 
-        if (draggedIconIndex != -1)
-        {
-            Vector2 inputPos = GetInputPosition();
-            if (inputPos != Vector2.zero)
-                patternIcons[draggedIconIndex].transform.position = Camera.main.ScreenToWorldPoint(inputPos);
-        }
+        //if (draggedIconIndex != -1)
+        //{
+        //    Vector2 inputPos = GetInputPosition();
+        //    if (inputPos != Vector2.zero)
+        //        patternIcons[draggedIconIndex].transform.position = Camera.main.ScreenToWorldPoint(inputPos);
+        //}
 
-        HandleTouchOrClick();
+        //HandleTouchOrClick();
     }
 
     private void SpawnIcons()
     {
+        InitializeInputHandler();
+
         targetIcon = null;
         
         succesfulMatch = 0;
@@ -196,7 +201,7 @@ public class PatternGameHandler : MonoBehaviour
 
     void OnIconMouseCollided(int iconIndex)
     {
-        draggedIconIndex = iconIndex;
+        // draggedIconIndex = iconIndex;
     }
 
 
@@ -392,6 +397,79 @@ public class PatternGameHandler : MonoBehaviour
             return Input.mousePosition;
 
         return Vector2.zero;
+    }
+
+
+    private void InitializeInputHandler()
+    {
+        if (!CentralInputHandler.Instance)
+        {
+            print("FUCK!");
+            // TEST2.transform.position = Vector2.zero;
+        }
+        CentralInputHandler.Instance.OnPress += HandlePress;
+        CentralInputHandler.Instance.OnRelease += HandleRelease;
+        CentralInputHandler.Instance.OnDrag += HandleDrag;
+
+    }
+    private void OnDisable()
+    {
+        if (CentralInputHandler.Instance == null) return;
+        CentralInputHandler.Instance.OnPress -= HandlePress;
+        CentralInputHandler.Instance.OnRelease -= HandleRelease;
+        CentralInputHandler.Instance.OnDrag -= HandleDrag;
+    }
+
+
+    void HandlePress(Vector2 worldPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            PatternIcon patternIcon = hit.collider.GetComponent<PatternIcon>();
+            if (patternIcon != null && patternIcons.Contains(patternIcon))
+            {
+                draggedIconIndex = patternIcon.iconIndex;
+                targetIcon = patternIcon;
+
+                // targetIcon = null;
+
+                // patternIcon.onIconMouseCollided?.Invoke(patternIcon.iconIndex); // TEST
+            }
+        }
+    }
+
+    void HandleDrag(Vector2 worldPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            PatternIcon patternIcon = hit.collider.GetComponent<PatternIcon>();
+            if (patternIcon != null)
+            {
+                // if (patternIconHolders.Contains(patternIcon))
+                // selectedIconIndex = patternIcon.iconIndex;
+                patternIcon.onIconMouseCollided?.Invoke(patternIcon.iconIndex);
+            }
+        }
+
+        if (draggedIconIndex != -1)
+        {
+            targetIcon.gameObject.transform.position = worldPos;
+            print("BRUH!");
+        }
+
+
+    }
+
+    void HandleRelease()
+    {
+        draggedIconIndex = -1;
+        
+        targetIcon = null;
+        // draggedObject = null;
     }
 
 
