@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -9,8 +10,8 @@ public class MatchingGameHandler : MonoBehaviour
 {
 
     [SerializeField] GameObject matchingIconGO;
-    List<MatchingIcon> topMatchingIcon = new List<MatchingIcon>();
-    List<MatchingIcon> buttomMatchingIcon = new List<MatchingIcon>();
+    public List<MatchingIcon> topMatchingIcon = new List<MatchingIcon>();
+    public List<MatchingIcon> buttomMatchingIcon = new List<MatchingIcon>();
 
     List<LineRenderer> lines = new List<LineRenderer>();
 
@@ -30,7 +31,11 @@ public class MatchingGameHandler : MonoBehaviour
 
     int matchedIconsNumber = 0;
 
+    public Action iconsFirstSpawnAction;
+
     [SerializeField] const int iconsCount = 4;
+
+    bool isFirstRun = true;
 
     enum SelectedIconSide
     {
@@ -42,6 +47,17 @@ public class MatchingGameHandler : MonoBehaviour
     SelectedIconSide selectedIconSide = SelectedIconSide.none;
 
     string matchingGameIconCategory = "";
+
+    public static MatchingGameHandler instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(instance);
+    }
+
 
     void Start()
     {
@@ -89,8 +105,9 @@ public class MatchingGameHandler : MonoBehaviour
 
     void SpawnIcons()
     {
-        InitializeInputHandler();
 
+
+        InitializeInputHandler();
 
         matchedIconsNumber = 0;
 
@@ -178,6 +195,12 @@ public class MatchingGameHandler : MonoBehaviour
 
         StartCoroutine(IconsFadeIn(2f));
 
+
+        if (isFirstRun)
+        {
+            iconsFirstSpawnAction?.Invoke();
+            isFirstRun = false;
+        }
     }
 
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using System;
 
 public class SortingGameHandler : MonoBehaviour
 {
@@ -22,6 +22,7 @@ public class SortingGameHandler : MonoBehaviour
 
     Coroutine fadeOutCoroutine;
 
+    Coroutine eatingCoroutine;
 
     [SerializeField] GameObject matchingIconGO;
 
@@ -31,14 +32,32 @@ public class SortingGameHandler : MonoBehaviour
 
     List<Color> colors = new List<Color>();
 
-    SortingIcon targetIcon;
+    public SortingIcon targetIcon;
 
     Coroutine collideCoroutine;
 
+    float characterInitialMoveSpeed;
+
     Vector3 characterInitialPosition;
+
+    public static SortingGameHandler instance;
+
+    public Action iconsFirstSpawnAction;
+    bool isFirstRun = true;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else
+            Destroy(instance);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        characterInitialMoveSpeed = SortingGameCharacter.instance.moveSpeed;
 
         Color customizedBlue = new Color(0.4f, 0.4f, 1f);
 
@@ -58,6 +77,9 @@ public class SortingGameHandler : MonoBehaviour
 
     private void SpawnIcons()
     {
+         SortingGameCharacter.instance.moveSpeed = characterInitialMoveSpeed;
+
+
         float aspect = (float)Screen.width / Screen.height;
         transitionMaterial.SetFloat("_Aspect", aspect);
 
@@ -93,7 +115,7 @@ public class SortingGameHandler : MonoBehaviour
         int temp = 0;
             
 
-        int targetIconIndex = randomColorIndex[Random.Range(0, 4)];
+        int targetIconIndex = randomColorIndex[UnityEngine.Random.Range(0, 4)];
 
 
         foreach (Vector2 position in Positions)
@@ -126,6 +148,12 @@ public class SortingGameHandler : MonoBehaviour
         SortingGameCharacter.instance.spriteRenderer.color = colors[targetIconIndex];
 
         SortingGameCharacter.instance.onCharacterCollidedEvent += OnCharacterCollided;
+
+        if (isFirstRun)
+        {
+            iconsFirstSpawnAction?.Invoke();
+            isFirstRun = false;
+        }
     }
 
     void OnCharacterCollided(Collider2D collision)
@@ -133,12 +161,17 @@ public class SortingGameHandler : MonoBehaviour
         if (collision == targetIcon.circleCollider)
         {
             if (collideCoroutine == null)
+            {
+                SortingGameCharacter.instance.moveSpeed = 0f;
                 collideCoroutine = StartCoroutine(RemoveObjects());
+            }
         }
     }
 
     IEnumerator RemoveObjects()
     {
+        eatingCoroutine = StartCoroutine(EatiIcon(1f));
+
         fadeInCoroutine = StartCoroutine(FadeTransition(true));
 
         yield return new WaitForSeconds(1f);
@@ -147,7 +180,6 @@ public class SortingGameHandler : MonoBehaviour
             foreach (SortingIcon sortingIcon in sortingIcons)
             {
                 GameObject.Destroy(sortingIcon.gameObject);
-                print("REMOVING ICONS");
             }
 
         collideCoroutine = null;
@@ -164,7 +196,21 @@ public class SortingGameHandler : MonoBehaviour
         fadeOutCoroutine = StartCoroutine(FadeTransition(false));
 
     }
+    IEnumerator EatiIcon(float eatingSpeed)
+    {
+        while(true)
+        {
+            targetIcon.transform.localScale -= new Vector3(eatingSpeed, eatingSpeed) * Time.deltaTime;
+            if (targetIcon.transform.localScale.x <= 0f)
+            {
+                targetIcon.transform.localScale = Vector3.zero;
+                break;
+            }
+            yield return null;
 
+        }
+
+    }
 
     IEnumerator FadeTransition(bool closing)
     {

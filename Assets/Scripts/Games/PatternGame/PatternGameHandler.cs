@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class PatternGameHandler : MonoBehaviour
 {
@@ -8,9 +9,9 @@ public class PatternGameHandler : MonoBehaviour
 
     [SerializeField] const int iconsPlaceCount = 4;
 
-    List<PatternIcon> patternIcons = new List<PatternIcon>();
+    public List<PatternIcon> patternIcons = new List<PatternIcon>();
 
-    List<PatternIcon> patternIconHolders = new List<PatternIcon>();
+    public List<PatternIcon> patternIconHolders = new List<PatternIcon>();
 
     PatternIcon targetIcon;
 
@@ -28,7 +29,21 @@ public class PatternGameHandler : MonoBehaviour
 
     CentralInputHandler inputHandler;
 
+    public static PatternGameHandler instance;
 
+    public Action iconsFirstSpawnAction;
+    bool isFirstRun = true;
+
+
+
+private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(instance);
+
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -85,7 +100,7 @@ public class PatternGameHandler : MonoBehaviour
 
         Texture2D[] allTextures = SpawnUtility.LoadTextures("Fruits");
         
-        Texture2D texture = allTextures[Random.Range(0, allTextures.Length - 1)];
+        Texture2D texture = allTextures[UnityEngine.Random.Range(0, allTextures.Length - 1)];
 
         int temp = 0;
 
@@ -169,6 +184,12 @@ public class PatternGameHandler : MonoBehaviour
         }
 
         StartCoroutine(IconsFadeIn(2f));
+
+        if (isFirstRun)
+        {
+            iconsFirstSpawnAction?.Invoke();
+            isFirstRun = false;
+        }
 
     }
 

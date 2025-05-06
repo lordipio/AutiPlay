@@ -3,12 +3,18 @@ using UnityEngine;
 
 public class SortingGameCharacter : MonoBehaviour
 {
-    [SerializeField] FixedJoystick joystick;
+    public FixedJoystick joystick;
     [SerializeField] Rigidbody2D rb;
+    
+    [SerializeField] Animator animator;
+
     public SpriteRenderer spriteRenderer;
+
+
 
     public delegate void OnCharacterCollided(Collider2D collision);
     public OnCharacterCollided onCharacterCollidedEvent;
+
 
 
     public float moveSpeed = 10f;
@@ -31,9 +37,19 @@ public class SortingGameCharacter : MonoBehaviour
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            animator.SetBool("IsMoving", true);
         }
 
+        else
+            animator.SetBool("IsMoving", false);
+
+
         transform.Translate(direction.normalized * moveSpeed * Time.deltaTime, Space.World);
+
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+        viewPos.x = Mathf.Clamp01(viewPos.x);
+        viewPos.y = Mathf.Clamp01(viewPos.y);
+        transform.position = Camera.main.ViewportToWorldPoint(viewPos);
     }
 
 

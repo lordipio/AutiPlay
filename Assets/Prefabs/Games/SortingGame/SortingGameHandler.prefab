@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7004161986042863696}
   - component: {fileID: 1269242234841070572}
+  - component: {fileID: 9080965010157376656}
   m_Layer: 0
   m_Name: SortingGameHandler
   m_TagString: Untagged
@@ -44,4 +45,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655325fcde887cc468ea4bb06684e354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionMaterial: {fileID: 0}
+  transitionTime: 4
+  transitionSpeed: 4
   matchingIconGO: {fileID: 1873962531444186952, guid: e6c4340a5876e5e40b4ba5ecdd78d071, type: 3}
+  targetIcon: {fileID: 0}
+--- !u!114 &9080965010157376656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417443290588261919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9f4b74ff4e65546ae6d24b5d2198f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorMovingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  guideCursor: {fileID: 1142981988123917543, guid: 31fc21f386f15de4c8f8455af3a95d6d, type: 3}

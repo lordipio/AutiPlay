@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1691182778696027535}
   - component: {fileID: 3941783645290883805}
+  - component: {fileID: -4775162550296520560}
   m_Layer: 0
   m_Name: PatternGameHandler
   m_TagString: Untagged
@@ -45,5 +46,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchingIconGO: {fileID: 1873962531444186952, guid: 5f305aa4f10a33e48afaf7d9fb7c7c47, type: 3}
+  patternIcons: []
+  patternIconHolders: []
   confettiTop: {fileID: 5172126150689712633, guid: 3b0307a96dfaa9e428b47c8049c91dc4, type: 3}
   confettiButtom: {fileID: 1163917941863930400, guid: 5acd185c9f1509d4d82b7ed81e125ded, type: 3}
+--- !u!114 &-4775162550296520560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404432342529587059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c31e9aab3f8f304a86fd55365451c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorMovingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  guideCursor: {fileID: 1142981988123917543, guid: 31fc21f386f15de4c8f8455af3a95d6d, type: 3}
