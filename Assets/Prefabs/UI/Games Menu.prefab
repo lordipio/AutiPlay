@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1870271733923186435}
   - component: {fileID: 5272360427270726742}
+  - component: {fileID: 8863284040119425728}
   m_Layer: 5
   m_Name: Holder
   m_TagString: Untagged
@@ -66,6 +67,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!225 &8863284040119425728
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2936230773777067803}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3050215571475013527
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +171,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 160.55
+  m_fontSize: 189.75
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -598,10 +611,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe9b880125eca44395a0d96ef4dbc95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 8863284040119425728}
   PatternsButton: {fileID: 3820483365167276262}
   MatchingButton: {fileID: 6545164912842545497}
   SortingButton: {fileID: 1627090477683260286}
   BackButton: {fileID: 1736337149304307879}
+  animationDuration: 0.4
+  delayBetween: 0.1
+  bounceAmount: -40
+  bounceDuration: 0.1
 --- !u!114 &368123289467483611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,7 +921,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1318195614487474344}
   - component: {fileID: 6944501255173121863}
-  - component: {fileID: 6018625436159200410}
+  - component: {fileID: 5000467454404451401}
+  - component: {fileID: 5173738693053198649}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -925,10 +944,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8914263590097644553}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -640, y: 0}
-  m_SizeDelta: {x: 3583.42, y: 182.32}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2000, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6944501255173121863
 CanvasRenderer:
@@ -938,7 +957,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7894223023610826435}
   m_CullTransparentMesh: 1
---- !u!114 &6018625436159200410
+--- !u!114 &5000467454404451401
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -947,7 +966,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 7894223023610826435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: a6d97422d0d29e647adc804119d9ff2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 5173738693053198649}
+  backgroundDimension: {x: 4333, y: 1516}
+  scrollSpeed: 0.035
+--- !u!114 &5173738693053198649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894223023610826435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -958,16 +992,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d5eb449aed970f84dbff9c938dcbe266, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 2800000, guid: 2999ad700c6b158478bdd391c176af01, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &8217709215486970831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,7 +1224,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 173.85
+  m_fontSize: 200
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1

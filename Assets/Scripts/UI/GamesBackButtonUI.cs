@@ -21,7 +21,8 @@ public class GamesBackButtonUI : MonoBehaviour
 
     public void OnBackButtonUIClicked()
     {
-        SceneManager.LoadScene("Menu");
+        StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.Portrait, ()=> { SceneManager.LoadScene("Menu"); } ));
+
         // onGamesBackButtonClicked?.Invoke();
     }
 

@@ -1,12 +1,21 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class MatchAutoFontSize : MonoBehaviour
 {
     public TMP_Text[] texts;
 
-    void Start()
+    void Awake()
     {
+        StartCoroutine(SetFontsSize());
+    }
+
+    IEnumerator SetFontsSize()
+    {
+        for (int i = 0; i < 5; i++)
+            yield return new WaitForEndOfFrame();
+
         float minFontSize = float.MaxValue;
 
         foreach (var txt in texts)

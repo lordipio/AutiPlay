@@ -55,6 +55,7 @@ public class SortingGameGuide : GeneralGuide
 
         // guideCursor.transform.position = SortingGameCharacter.instance.joystick.gameObject.transform.position;
 
+        StartCoroutine(DrawAndFadeLine(SortingGameCharacter.instance.transform.position, SortingGameHandler.instance.targetIcon.gameObject.transform.position, 0.5f, 1f, 1.5f));
 
         yield return StartCoroutine(PulseScale(guideUIImage.gameObject.transform, 3f, 1.5f, 0.8f, 1f));
 
@@ -62,7 +63,6 @@ public class SortingGameGuide : GeneralGuide
 
         // StartCoroutine(DrawAndFadeLine(SortingGameCharacter.instance.transform.position, SortingGameHandler.instance.targetIcon.gameObject.transform.position, 3f));
 
-        yield return StartCoroutine(DrawAndFadeLine(SortingGameCharacter.instance.transform.position, SortingGameHandler.instance.targetIcon.gameObject.transform.position, 0.5f, 1f, 1.5f));
 
         //foreach (PatternIcon patternIcon in PatternGameHandler.instance.patternIcons)
         //    foreach (PatternIcon patternIconHolder in PatternGameHandler.instance.patternIconHolders)

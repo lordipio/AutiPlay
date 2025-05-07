@@ -1,85 +1,131 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MatchingGamesCategoryMenu : MonoBehaviour
 {
-
     [SerializeField] Button educationButton;
-
     [SerializeField] Button farmButton;
-
     [SerializeField] Button homeApplianceButton;
-
     [SerializeField] Button humanBodyButton;
-
     [SerializeField] Button natureButton;
-
     [SerializeField] Button fruitsButton;
-
     [SerializeField] Button animalsButton;
-
     [SerializeField] Button backButton;
+    [SerializeField] CanvasGroup canvasGroup;
+    [SerializeField] ScrollRect scrollRect;
 
 
+    private List<RectTransform> buttons = new List<RectTransform>();
+    private Dictionary<RectTransform, Vector2> targetPositions = new Dictionary<RectTransform, Vector2>();
+
+    public float animationDuration = 0.05f;
+    public float delayBetween = 0.01f;
+    public float bounceAmount = 10f;
+    public float bounceDuration = 0.1f;
 
     private void Awake()
     {
-        educationButton.onClick.AddListener(()=> { MatchingGameCategoryData.MatchingGameCategory = "Education"; SceneManager.LoadScene("MatchingGame"); });
-        farmButton.onClick.AddListener(()=>{MatchingGameCategoryData.MatchingGameCategory = "Farm"; SceneManager.LoadScene("MatchingGame"); });
-        homeApplianceButton.onClick.AddListener(()=>{MatchingGameCategoryData.MatchingGameCategory = "Home Appliances"; SceneManager.LoadScene("MatchingGame");});
-        humanBodyButton.onClick.AddListener(()=>{ MatchingGameCategoryData.MatchingGameCategory = "Human Body"; SceneManager.LoadScene("MatchingGame"); });
-        natureButton.onClick.AddListener(()=>{MatchingGameCategoryData.MatchingGameCategory = "Nature"; SceneManager.LoadScene("MatchingGame");});
-        fruitsButton.onClick.AddListener(()=>{MatchingGameCategoryData.MatchingGameCategory = "Fruits"; SceneManager.LoadScene("MatchingGame");});
-        animalsButton.onClick.AddListener(()=>{ MatchingGameCategoryData.MatchingGameCategory = "Animals"; SceneManager.LoadScene("MatchingGame"); });
-
-        backButton.onClick.AddListener(() => { UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu); });
+        educationButton.onClick.AddListener(() => LoadCategory("Education"));
+        farmButton.onClick.AddListener(() => LoadCategory("Farm"));
+        homeApplianceButton.onClick.AddListener(() => LoadCategory("Home Appliances"));
+        humanBodyButton.onClick.AddListener(() => LoadCategory("Human Body"));
+        natureButton.onClick.AddListener(() => LoadCategory("Nature"));
+        fruitsButton.onClick.AddListener(() => LoadCategory("Fruits"));
+        animalsButton.onClick.AddListener(() => LoadCategory("Animals"));
+        backButton.onClick.AddListener(() => UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu));
     }
 
+    private void OnEnable()
+    {
+        scrollRect.verticalNormalizedPosition = 1f;
+        StartCoroutine(StartTransition());
+    }
 
-    //public void OnEducationButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Education");
-    //}
+    void LoadCategory(string category)
+    {
+        MatchingGameCategoryData.MatchingGameCategory = category;
+        SceneManager.LoadScene("MatchingGame");
+    }
 
-    //public void OnFarmButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Farm");
-    //}
+    IEnumerator StartTransition()
+    {
+        canvasGroup.alpha = 0f;
 
-    //public void OnHomeApplianceButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Home Appliances");
+        for (int i = 0; i < 3; i++) yield return new WaitForEndOfFrame();
 
-    //}
+        buttons.Clear();
+        targetPositions.Clear();
 
-    //public void OnHumanBodyButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Human Body");
+        Button[] buttonArray = { animalsButton, educationButton, farmButton, homeApplianceButton, humanBodyButton, natureButton, fruitsButton, backButton };
 
-    //}
+        foreach (var btn in buttonArray)
+        {
+            var rect = btn.GetComponent<RectTransform>();
+            buttons.Add(rect);
+            targetPositions[rect] = rect.anchoredPosition;
 
-    //public void OnNatureButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Nature");
+            float offscreenY = -Screen.height - rect.rect.height;
+            rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, offscreenY);
 
-    //}
+            var cg = btn.GetComponent<CanvasGroup>();
+            if (cg == null) cg = btn.gameObject.AddComponent<CanvasGroup>();
+            cg.alpha = 0f;
+        }
 
-    //public void OnFruitsButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Fruits");
+        canvasGroup.alpha = 1f;
 
-    //}
+        foreach (var rect in buttons)
+        {
+            yield return StartCoroutine(MoveUp(rect));
+        }
+    }
 
-    //public void OnAnimalButtonClicked()
-    //{
-    //    onMatchingGamesCategorySelected?.Invoke("Animals");
+    IEnumerator MoveUp(RectTransform icon)
+    {
+        Vector2 startPos = icon.anchoredPosition;
+        Vector2 targetPos = targetPositions[icon];
 
-    //}
+        CanvasGroup cg = icon.GetComponent<CanvasGroup>();
+        float elapsed = 0f;
 
-    //public void OnMatchingCategoryMenuBackButtonClicked()
-    //{
-    //    onMatchingCategoryMenuBackButtonClickedEvent?.Invoke();
-    //}
+        while (elapsed < animationDuration)
+        {
+            float t = elapsed / animationDuration;
+            t = 1f - Mathf.Pow(1f - t, 3f); // ease-out
+            icon.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
+            if (cg != null) cg.alpha = t;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        icon.anchoredPosition = targetPos;
+        if (cg != null) cg.alpha = 1f;
+
+        // Bounce
+        Vector2 overShoot = targetPos + new Vector2(0, bounceAmount);
+        Vector2 underShoot = targetPos - new Vector2(0, bounceAmount * 0.5f);
+
+        float bounceElapsed = 0f;
+        while (bounceElapsed < bounceDuration)
+        {
+            float t = bounceElapsed / bounceDuration;
+            icon.anchoredPosition = Vector2.Lerp(targetPos, overShoot, t);
+            bounceElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        bounceElapsed = 0f;
+        while (bounceElapsed < bounceDuration)
+        {
+            float t = bounceElapsed / bounceDuration;
+            icon.anchoredPosition = Vector2.Lerp(overShoot, targetPos, t);
+            bounceElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        icon.anchoredPosition = targetPos;
+    }
 }
