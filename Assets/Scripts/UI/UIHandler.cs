@@ -49,6 +49,8 @@ public class UIHandler : MonoBehaviour
 
     public void ActivateUIMenu(GameObject menuPage)
     {
+        AudioHandler.instance.PlayButtonSound();
+
         DeactiveAll();
 
         menuPage.SetActive(true);

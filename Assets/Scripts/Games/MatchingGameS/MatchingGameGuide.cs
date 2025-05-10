@@ -50,6 +50,9 @@ public class MatchingGameGuide : GeneralGuide
             firstRunGuide = false;
         }
 
+
+        StartCoroutine(FadeInGuidePassage(5f));
+        
         guideCursor.SetActive(true);
         foreach (MatchingIcon topMatchingIcon in MatchingGameHandler.instance.topMatchingIcon)
             foreach (MatchingIcon buttomMatchingIcon in MatchingGameHandler.instance.buttomMatchingIcon)
@@ -59,6 +62,9 @@ public class MatchingGameGuide : GeneralGuide
                     // yield return new WaitForSeconds(0.5f);
                     continue;
                 }
+
+        StartCoroutine(FadeOutGuidePassage(5f));
+
         guideCursor.SetActive(false);
         startCoroutine = null;
     }

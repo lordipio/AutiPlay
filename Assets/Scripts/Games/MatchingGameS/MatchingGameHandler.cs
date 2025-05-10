@@ -220,8 +220,8 @@ public class MatchingGameHandler : MonoBehaviour
 
             DeactiveIcon(collidedMatchingIcon);
 
-            matchedIconsNumber++;
 
+            matchedIconsNumber++;
 
             if (matchedIconsNumber >= iconsCount)
                 StartCoroutine(RemoveObjects());
@@ -229,19 +229,22 @@ public class MatchingGameHandler : MonoBehaviour
             selectedIconIndex = -1;
 
             line.enabled = false;
+            
+            AudioHandler.instance.PlaySelectSound();
 
             return;
         }
-
+        if (selectedIconIndex != iconIndex)
+            AudioHandler.instance.PlaySelectSound();
 
         selectedIconIndex = iconIndex;
         selectedIconSide = SelectedIconSide.top;
 
         line.enabled = true;
+        // if (!line.GetPosition(0).Equals(topMatchingIcon[iconIndex].holderKnob.transform.position))
+           //  AudioHandler.instance.PlaySelectSound();
 
         line.SetPosition(0, topMatchingIcon[iconIndex].holderKnob.transform.position);
-
-        print(iconIndex);
     }
 
     void OnButtomIconCollided(int iconIndex)
@@ -262,21 +265,22 @@ public class MatchingGameHandler : MonoBehaviour
 
             matchedIconsNumber++;
 
-
             if (matchedIconsNumber >= iconsCount)
                 StartCoroutine(RemoveObjects());
 
             selectedIconIndex = -1;
             line.enabled = false;
+            AudioHandler.instance.PlaySelectSound();
 
             return;
         }
+        if (selectedIconIndex != iconIndex)
+        AudioHandler.instance.PlaySelectSound();
 
         selectedIconIndex = iconIndex;
         selectedIconSide = SelectedIconSide.bottom;
 
         line.enabled = true;
-
         line.SetPosition(0, collidedMatchingIcon.holderKnob.transform.position);
 
         // print(iconIndex);
@@ -526,7 +530,6 @@ public class MatchingGameHandler : MonoBehaviour
     {
         if (!CentralInputHandler.Instance)
         {
-            print("FUCK!");
             TEST2.transform .position = Vector2.zero;
         }
         CentralInputHandler.Instance.OnPress += HandlePress;
@@ -544,6 +547,7 @@ public class MatchingGameHandler : MonoBehaviour
 
     void HandlePress(Vector2 worldPos)
     {
+
         RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
 
         if (hit.collider != null)
@@ -551,8 +555,9 @@ public class MatchingGameHandler : MonoBehaviour
             MatchingIcon matchingIcon = hit.collider.GetComponent<MatchingIcon>();
             if (matchingIcon != null)
             {
-                selectedIconIndex = matchingIcon.iconIndex;
+                // selectedIconIndex = matchingIcon.iconIndex;
                 matchingIcon.onIconMouseCollided?.Invoke(matchingIcon.iconIndex);
+
 
                 if (topMatchingIcon.Contains(matchingIcon))
                     selectedIconSide = SelectedIconSide.top;

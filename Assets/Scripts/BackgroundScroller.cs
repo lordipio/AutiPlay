@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System;
+
 
 public class BackgroundScroller : MonoBehaviour
 {
@@ -7,8 +10,23 @@ public class BackgroundScroller : MonoBehaviour
     public Vector2 backgroundDimension;
 
     public float scrollSpeed = 0.1f;
+    private float lastAspect;
+
+
+
+    private void Awake()
+    {
+        // ScreenOrientationUtilities.SetPortrait();
+        StartCoroutine(SetOrientationAndWait(ScreenOrientation.Portrait, SetBackgroundDimension));
+    }
 
     private void OnEnable()
+    {
+
+
+    }
+
+    void SetBackgroundDimension()
     {
         // float width = Screen.width;
 
@@ -22,7 +40,6 @@ public class BackgroundScroller : MonoBehaviour
         background.rectTransform.sizeDelta = new Vector2(backgroundDimension.x * heightScale, height);
 
         // background.rectTransform.sizeDelta = new Vector2(backgroundDimension.x * heightScale, background.rectTransform.sizeDelta.x);
-
     }
 
     void Update()
@@ -30,5 +47,17 @@ public class BackgroundScroller : MonoBehaviour
         Rect uvRect = background.uvRect;
         uvRect.x += scrollSpeed * Time.deltaTime;
         background.uvRect = uvRect;
+    }
+
+
+    public IEnumerator SetOrientationAndWait(ScreenOrientation orientation, Action onDone = null)
+    {
+        Screen.orientation = orientation;
+
+        yield return new WaitUntil(() => Screen.orientation == orientation);
+
+        onDone?.Invoke();
+
+        lastAspect = (float)Screen.width / (float)Screen.height;
     }
 }

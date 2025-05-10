@@ -6,10 +6,18 @@ public class GeneralGuide : MonoBehaviour
     public AnimationCurve cursorMovingCurve;
 
     public GameObject guideCursor ;
+    
+    protected CanvasGroup guidePassagecanvasGroup;
+
+    [SerializeField] protected GameObject guidePassage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
+        guidePassagecanvasGroup = guidePassage.GetComponent<CanvasGroup>();
+        if (guidePassagecanvasGroup != null)
+            guidePassagecanvasGroup.alpha = 0f;
+
         guideCursor = Instantiate<GameObject>(guideCursor);
     }
 
@@ -42,5 +50,31 @@ public class GeneralGuide : MonoBehaviour
 
         // در پایان مطمئن شو دقیقاً روی finalPos وایسه
         // guideCursor.gameObject.transform.position = finalPos;
+    }
+
+
+    protected IEnumerator FadeInGuidePassage(float speed)
+    {
+        if (guidePassagecanvasGroup)
+            while (guidePassagecanvasGroup.alpha < 1)
+            {
+                guidePassagecanvasGroup.alpha += speed * Time.deltaTime;
+                yield return null;
+            }
+        else
+        guidePassagecanvasGroup.alpha = 1;
+    }
+
+
+    protected IEnumerator FadeOutGuidePassage(float speed)
+    {
+        if (guidePassagecanvasGroup)
+            while (guidePassagecanvasGroup.alpha > 0)
+            {
+                guidePassagecanvasGroup.alpha -= speed * Time.deltaTime;
+                yield return null;
+            }
+
+        guidePassagecanvasGroup.alpha = 0;
     }
 }

@@ -2,6 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class SortingGameGuide : GeneralGuide
 {
@@ -9,6 +10,7 @@ public class SortingGameGuide : GeneralGuide
 
 
     public GameObject guideUIImage;
+
 
     Coroutine startCoroutine;
 
@@ -28,11 +30,8 @@ public class SortingGameGuide : GeneralGuide
     protected override void Start()
     {
         base.Start();
-
-
+        
         SortingGameHandler.instance.iconsFirstSpawnAction += InitGuid;
-
-        // StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, InitGuid));
     }
 
 
@@ -51,28 +50,20 @@ public class SortingGameGuide : GeneralGuide
             firstRunGuide = false;
         }
 
-        guideUIImage.gameObject.SetActive(true);
+        StartCoroutine(FadeInGuidePassage(5f));
 
-        // guideCursor.transform.position = SortingGameCharacter.instance.joystick.gameObject.transform.position;
+        guideUIImage.gameObject.SetActive(true);
 
         StartCoroutine(DrawAndFadeLine(SortingGameCharacter.instance.transform.position, SortingGameHandler.instance.targetIcon.gameObject.transform.position, 0.5f, 1f, 1.5f));
 
         yield return StartCoroutine(PulseScale(guideUIImage.gameObject.transform, 3f, 1.5f, 0.8f, 1f));
 
+        StartCoroutine(FadeOutGuidePassage(5f));
+        
         guideUIImage.gameObject.SetActive(false);
 
-        // StartCoroutine(DrawAndFadeLine(SortingGameCharacter.instance.transform.position, SortingGameHandler.instance.targetIcon.gameObject.transform.position, 3f));
-
-
-        //foreach (PatternIcon patternIcon in PatternGameHandler.instance.patternIcons)
-        //    foreach (PatternIcon patternIconHolder in PatternGameHandler.instance.patternIconHolders)
-        //        if (patternIcon.iconIndex == patternIconHolder.iconIndex)
-        //        {
-        //            yield return StartCoroutine(MoveCursor(patternIcon.gameObject.transform.position, patternIconHolder.gameObject.transform.position, 12f));
-        //            // yield return new WaitForSeconds(0.5f);
-        //            continue;
-        //        }
         guideCursor.SetActive(false);
+
         startCoroutine = null;
     }
 

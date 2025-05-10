@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
+
         GamesButton.onClick.AddListener(() => UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu));
         OptionButton.onClick.AddListener(() => UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu));
         ExitButton.onClick.AddListener(() => Application.Quit());

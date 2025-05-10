@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &117464021
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6608034737803898284, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_Name
+      value: AudioHandler
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1170
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210313063727529095, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0723830c52dad024b8766e18246885b6, type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +327,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPortrait: 0
+--- !u!1 &692646417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 214182385462279234, guid: 363dc918fd6a91d4e97caea64c72a7fc, type: 3}
+  m_PrefabInstance: {fileID: 4355976488953629056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1491173245
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,6 +640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4775162550296520560, guid: b54910746b2e8c2468b8476d19132b18, type: 3}
+      propertyPath: guidePassage
+      value: 
+      objectReference: {fileID: 692646417}
     - target: {fileID: 1691182778696027535, guid: b54910746b2e8c2468b8476d19132b18, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.2178
@@ -719,6 +785,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8386317233363963016, guid: 363dc918fd6a91d4e97caea64c72a7fc, type: 3}
+      propertyPath: m_text
+      value: "\uFE97\uFEBC\uFE8E\uFEED\uFBFE\uFEAE \uFEAD\uFEED \uFE8D\uFEAF \uFB7C\uFB57
+        \uFE91\uFEEA \uFEAD\uFE8D\uFEB3\uFE96 \uFE91\uFB7D\uFBFF\uFEE6\u060C \uFE8D\uFEAF
+        \uFB58\uFEAE\uFEAD\uFEE7\uFB93 \uFE97\uFE8E \uFB90\uFEE4\uFEAE\uFEE7\uFB93!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386317233363963016, guid: 363dc918fd6a91d4e97caea64c72a7fc, type: 3}
+      propertyPath: originalText
+      value: "\u062A\u0635\u0627\u0648\u06CC\u0631 \u0631\u0648 \u0627\u0632 \u0686\u067E
+        \u0628\u0647 \u0631\u0627\u0633\u062A \u0628\u0686\u06CC\u0646\u060C \u0627\u0632
+        \u067E\u0631\u0631\u0646\u06AF \u062A\u0627 \u06A9\u0645\u0631\u0646\u06AF!"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -734,3 +812,4 @@ SceneRoots:
   - {fileID: 3046187386295078982}
   - {fileID: 4355976488953629056}
   - {fileID: 1492706388}
+  - {fileID: 117464021}

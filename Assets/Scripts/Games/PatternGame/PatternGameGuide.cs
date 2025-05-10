@@ -47,6 +47,7 @@ public class PatternGameGuide : GeneralGuide
             yield return new WaitForSeconds(1f);
             firstRunGuide = false;
         }
+        StartCoroutine(FadeInGuidePassage(5f));
 
         guideCursor.SetActive(true);
 
@@ -58,6 +59,10 @@ public class PatternGameGuide : GeneralGuide
                     // yield return new WaitForSeconds(0.5f);
                     continue;
                 }
+        yield return new WaitForSeconds(2f);
+
+        StartCoroutine(FadeOutGuidePassage(5f));
+
         guideCursor.SetActive(false);
         startCoroutine = null;
     }
