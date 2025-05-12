@@ -30,7 +30,6 @@ public class BackgroundScroller : MonoBehaviour
     {
         // float width = Screen.width;
 
-
         float height = Screen.height;
 
         float heightScale = height / backgroundDimension.y;

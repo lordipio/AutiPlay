@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System;
@@ -34,7 +34,7 @@ public class PatternGameHandler : MonoBehaviour
     public Action iconsFirstSpawnAction;
     bool isFirstRun = true;
 
-
+    float[] iconsAlpha = {1f, 0.6f, 0.2f, 0.0f };
 
 private void Awake()
     {
@@ -47,6 +47,9 @@ private void Awake()
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AudioHandler.instance.PlayPatternGameMusic();
+
+
         confettiTop = Instantiate<ParticleSystem>(confettiTop);
         confettiButtom = Instantiate<ParticleSystem>(confettiButtom);
 
@@ -137,6 +140,7 @@ private void Awake()
             
             tempPatternIcon.circleCollider.enabled = false;
 
+            tempPatternIcon.circleCollider.layerOverridePriority = 0;
 
 
             if (iconPosition != position)
@@ -160,6 +164,8 @@ private void Awake()
 
                 tempPatternIconHolder.spriteRenderer.sortingOrder = 0;
 
+                tempPatternIconHolder.circleCollider.layerOverridePriority = 1;
+
                 tempPatternIconHolder.circleCollider.enabled = true;
 
                 tempPatternIconHolder.spriteRenderer.sprite = sprite;
@@ -176,7 +182,10 @@ private void Awake()
 
             tempPatternIcon.spriteRenderer.sprite = sprite;
 
-            tempPatternIcon.spriteRenderer.color = new Color(1f, 1f, 1f, 1f - temp * 0.2f);
+            // tempPatternIcon.spriteRenderer.color = new Color(1f, 1f, 1f, 1f - temp * 0.2f);
+
+            // tempPatternIcon.spriteRenderer.color = new Color(1f, 1f, 1f, iconsAlpha[temp]);
+            SetImportance(iconsAlpha[temp], tempPatternIcon);
 
             patternIcons.Add(tempPatternIcon);
 
@@ -192,7 +201,11 @@ private void Awake()
         }
 
     }
-
+    void SetImportance(float alpha, PatternIcon icon)
+    {
+        // float gray = Mathf.Lerp(0.8f, 1f, 1f - alpha); // 0.2 = تیره، 1 = روشن
+        icon.spriteRenderer.color = new Color(alpha, alpha, alpha, 1f); // آلفا ثابت، رنگ تغییر
+    }
     void OnIconHolderCollided(Collider2D otherCollider, int currentIconIndex)
     {
         PatternIcon colliededPatternIcon = otherCollider.gameObject.GetComponent<PatternIcon>();
@@ -204,9 +217,15 @@ private void Awake()
                 foreach (PatternIcon icon in patternIconHolders)
                     if (icon.iconIndex == draggedIconIndex)
                     {
+                        AudioHandler.instance.PlaySelectSound();
+
                         draggedIconIndex = -1;
                         colliededPatternIcon.circleCollider.enabled = false;
                         otherCollider.gameObject.transform.position = icon.gameObject.transform.position;
+                        otherCollider.layerOverridePriority = 1;
+                        colliededPatternIcon.spriteRenderer.sortingOrder  = 0;
+                        icon.circleCollider.enabled = false;
+
                         succesfulMatch++;
 
                         if (succesfulMatch == 2)
@@ -228,8 +247,11 @@ private void Awake()
 
     IEnumerator RemoveObjects()
     {
+
         confettiTop.Play();
         confettiButtom.Play();
+
+        AudioHandler.instance.PlayConfettiSound();
 
         yield return new WaitForSeconds(1f);
 
@@ -425,7 +447,6 @@ private void Awake()
     {
         if (!CentralInputHandler.Instance)
         {
-            print("FUCK!");
             // TEST2.transform.position = Vector2.zero;
         }
         CentralInputHandler.Instance.OnPress += HandlePress;
@@ -451,6 +472,8 @@ private void Awake()
             PatternIcon patternIcon = hit.collider.GetComponent<PatternIcon>();
             if (patternIcon != null && patternIcons.Contains(patternIcon))
             {
+                AudioHandler.instance.PlaySelectSound();
+
                 draggedIconIndex = patternIcon.iconIndex;
                 targetIcon = patternIcon;
 
@@ -479,7 +502,6 @@ private void Awake()
         if (draggedIconIndex != -1)
         {
             targetIcon.gameObject.transform.position = worldPos;
-            print("BRUH!");
         }
 
 
@@ -490,7 +512,6 @@ private void Awake()
         draggedIconIndex = -1;
         
         targetIcon = null;
-        // draggedObject = null;
     }
 
 

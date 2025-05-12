@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,6 +22,8 @@ public class GamesBackButtonUI : MonoBehaviour
 
     public void OnBackButtonUIClicked()
     {
+        AudioHandler.instance.PlayButtonSound();
+
         StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.Portrait, ()=> { SceneManager.LoadScene("Menu"); } ));
 
         // onGamesBackButtonClicked?.Invoke();
@@ -28,6 +31,20 @@ public class GamesBackButtonUI : MonoBehaviour
 
     public void OnGuideButtonUIClicked()
     {
+        StartCoroutine(StartNewLevel());
+        // SceneManager.LoadScene("Menu");
+        // onGamesBackButtonClicked?.Invoke();
+    }
+
+    IEnumerator StartNewLevel()
+    {
+        AudioHandler.instance.PlayButtonSound();
+        while(true)
+        {
+            if (!AudioHandler.instance.generalAudioSource.isPlaying)
+                break;
+            yield return null;
+        }
         if (MatchingGameGuide.instance)
             MatchingGameGuide.instance.InitGuid();
 
@@ -36,8 +53,6 @@ public class GamesBackButtonUI : MonoBehaviour
 
         if (SortingGameGuide.instance)
             SortingGameGuide.instance.InitGuid();
-        // SceneManager.LoadScene("Menu");
-        // onGamesBackButtonClicked?.Invoke();
     }
 
 }

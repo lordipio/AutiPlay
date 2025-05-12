@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 171788143740931653}
   - component: {fileID: 6108366321956875122}
   - component: {fileID: 8845939708346384695}
+  - component: {fileID: 9091857612525765653}
   m_Layer: 5
   m_Name: Farm Button
   m_TagString: Untagged
@@ -208,6 +209,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &9091857612525765653
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624230388130322246}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1185483564790994550
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +243,7 @@ GameObject:
   - component: {fileID: 2707491627094756968}
   - component: {fileID: 3677704832070760860}
   - component: {fileID: 790952918772463812}
+  - component: {fileID: 3611237158961104246}
   m_Layer: 5
   m_Name: Animal Button
   m_TagString: Untagged
@@ -341,6 +365,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &3611237158961104246
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185483564790994550}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1544512993036008963
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,6 +639,7 @@ GameObject:
   - component: {fileID: 7317788673125604131}
   - component: {fileID: 1674345370950703726}
   - component: {fileID: 9177697227116259723}
+  - component: {fileID: 7051440646662218633}
   m_Layer: 5
   m_Name: Home Appliance Button
   m_TagString: Untagged
@@ -714,6 +761,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &7051440646662218633
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686601429035854542}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1798809524263999784
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,6 +865,7 @@ GameObject:
   - component: {fileID: 6980721113273418040}
   - component: {fileID: 372150471134883684}
   - component: {fileID: 6845390681715740392}
+  - component: {fileID: 7717832650902157757}
   m_Layer: 5
   m_Name: Human Body Button
   m_TagString: Untagged
@@ -917,6 +987,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &7717832650902157757
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710358184436999783}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2897680055752928453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,6 +1303,7 @@ GameObject:
   - component: {fileID: 3961063828174917930}
   - component: {fileID: 9127505236067286302}
   - component: {fileID: 7165285974200492644}
+  - component: {fileID: 3325961051707263325}
   m_Layer: 5
   m_Name: Fruits Button
   m_TagString: Untagged
@@ -1332,6 +1425,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &3325961051707263325
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3768479868889376594}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5306366732307216065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1459,7 @@ GameObject:
   - component: {fileID: 7203685375445248558}
   - component: {fileID: 4516816704300269043}
   - component: {fileID: 2417598916139090210}
+  - component: {fileID: 6100780309463325767}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -1465,6 +1581,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &6100780309463325767
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306366732307216065}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5611254272079797502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +2074,7 @@ GameObject:
   - component: {fileID: 3796512036668998502}
   - component: {fileID: 1482458142743743233}
   - component: {fileID: 6564253484046253173}
+  - component: {fileID: 554290651381261390}
   m_Layer: 5
   m_Name: Education Button
   m_TagString: Untagged
@@ -2057,6 +2196,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &554290651381261390
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7128106351151693974}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7243577714255364358
 GameObject:
   m_ObjectHideFlags: 0
@@ -2069,6 +2230,7 @@ GameObject:
   - component: {fileID: 743186907913903219}
   - component: {fileID: 3179156445875315639}
   - component: {fileID: 1816746310834403381}
+  - component: {fileID: 321996065186172827}
   m_Layer: 5
   m_Name: Nature Button
   m_TagString: Untagged
@@ -2190,6 +2352,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &321996065186172827
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7243577714255364358}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91108117dedf3424f99bf575f43e66f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7600443353637911106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2751,7 +2935,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8464080448099273530}
   m_Direction: 2
   m_Value: 0.99999994
-  m_Size: 0.4155555
+  m_Size: 0.38042432
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -11,8 +11,24 @@ public class AudioHandler : MonoBehaviour
     [SerializeField] List<AudioResource> buttonClicksResources;
 
     [SerializeField] List<AudioResource> selectSoundResources;
+    
+    [SerializeField] AudioResource menuAudioResourceMusic;
 
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioResource matchingGameAudioResourceMusic;
+
+    [SerializeField] AudioResource sortingGameAudioResourceMusic;
+
+    [SerializeField] AudioResource patternGameAudioResourceMusic;
+
+    [SerializeField] AudioResource confettiAudioResource;
+
+    [SerializeField] AudioResource ladybugMovementAudioResource;
+
+
+    public AudioSource generalAudioSource;
+
+    public AudioSource musicAudioSource;
+
 
     private void Awake()
     {
@@ -34,13 +50,73 @@ public class AudioHandler : MonoBehaviour
 
     public void PlayButtonSound()
     {
-        audioSource.resource = buttonClicksResources[Random.Range(0, buttonClicksResources.Count)];
-        audioSource.Play();
+        generalAudioSource.pitch = 1f;
+        generalAudioSource.volume = 1f;
+        generalAudioSource.loop = false;
+        generalAudioSource.resource = buttonClicksResources[Random.Range(0, buttonClicksResources.Count)];
+        generalAudioSource.Play();
     }
 
     public void PlaySelectSound()
     {
-        audioSource.resource = selectSoundResources[Random.Range(0, selectSoundResources.Count)];
-        audioSource.Play();
+        generalAudioSource.pitch = 1f;
+        generalAudioSource.volume = 1f;
+        generalAudioSource.loop = false;
+        generalAudioSource.resource = selectSoundResources[Random.Range(0, selectSoundResources.Count)];
+        generalAudioSource.Play();
+    }
+
+    public void PlayLadybugMovementSound()
+    {
+        generalAudioSource.pitch = 0.8f;
+        generalAudioSource.volume = 0.2f;
+        generalAudioSource.loop = true;
+        generalAudioSource.resource = ladybugMovementAudioResource;
+        generalAudioSource.Play();
+    }
+
+    public void StopLadybugMovementSound()
+    {
+        generalAudioSource.pitch = 1f;
+        generalAudioSource.volume = 1f;
+        generalAudioSource.loop = false;
+        generalAudioSource.Pause();
+    }
+
+    public void PlayConfettiSound()
+    {
+        generalAudioSource.pitch = 1f + Random.Range(-0.1f, 0.1f);
+        generalAudioSource.volume = 0.5f;
+        generalAudioSource.loop = false;
+        generalAudioSource.resource = confettiAudioResource;
+        generalAudioSource.Play();
+    }
+
+    public void PlayMatchingGameMusic()
+    {
+        musicAudioSource.loop = true;
+        musicAudioSource.resource = matchingGameAudioResourceMusic;
+        musicAudioSource.Play();
+    }
+
+    public void PlaySortingGameMusic()
+    {
+        musicAudioSource.loop = true;
+        musicAudioSource.resource = sortingGameAudioResourceMusic;
+        musicAudioSource.Play();
+    }
+
+    public void PlayPatternGameMusic()
+    {
+        musicAudioSource.loop = true;
+        musicAudioSource.resource = patternGameAudioResourceMusic;
+        musicAudioSource.Play();
+    }
+
+    public void PlayMenuMusic()
+    {
+        musicAudioSource.loop = true;
+        musicAudioSource.resource = menuAudioResourceMusic;
+        musicAudioSource.Play();
     }
 }

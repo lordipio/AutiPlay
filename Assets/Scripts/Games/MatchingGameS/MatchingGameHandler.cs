@@ -61,6 +61,9 @@ public class MatchingGameHandler : MonoBehaviour
 
     void Start()
     {
+        AudioHandler.instance.PlayMatchingGameMusic();
+
+
         line = gameObject.AddComponent<LineRenderer>();
         line.positionCount = 2;
         line.startWidth = 0.5f;
@@ -91,16 +94,17 @@ public class MatchingGameHandler : MonoBehaviour
         //{
         //    line.enabled = false;
 
-            //    selectedIconIndex = -1;
+        //    selectedIconIndex = -1;
 
-            //    selectedIconSide = SelectedIconSide.none;
-            //}
+        //    selectedIconSide = SelectedIconSide.none;
+        //}
 
-            //Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            //line.SetPosition(1, mousePos);
+        //Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            //HandleTouchOrMouseInput();
+        //line.SetPosition(1, mousePos);
+
+        //HandleTouchOrMouseInput();
     }
 
     void SpawnIcons()
@@ -223,6 +227,8 @@ public class MatchingGameHandler : MonoBehaviour
 
             matchedIconsNumber++;
 
+            AudioHandler.instance.PlaySelectSound();
+
             if (matchedIconsNumber >= iconsCount)
                 StartCoroutine(RemoveObjects());
 
@@ -230,7 +236,6 @@ public class MatchingGameHandler : MonoBehaviour
 
             line.enabled = false;
             
-            AudioHandler.instance.PlaySelectSound();
 
             return;
         }
@@ -241,8 +246,7 @@ public class MatchingGameHandler : MonoBehaviour
         selectedIconSide = SelectedIconSide.top;
 
         line.enabled = true;
-        // if (!line.GetPosition(0).Equals(topMatchingIcon[iconIndex].holderKnob.transform.position))
-           //  AudioHandler.instance.PlaySelectSound();
+
 
         line.SetPosition(0, topMatchingIcon[iconIndex].holderKnob.transform.position);
     }
@@ -265,12 +269,13 @@ public class MatchingGameHandler : MonoBehaviour
 
             matchedIconsNumber++;
 
+            AudioHandler.instance.PlaySelectSound();
+
             if (matchedIconsNumber >= iconsCount)
                 StartCoroutine(RemoveObjects());
 
             selectedIconIndex = -1;
             line.enabled = false;
-            AudioHandler.instance.PlaySelectSound();
 
             return;
         }
@@ -282,8 +287,6 @@ public class MatchingGameHandler : MonoBehaviour
 
         line.enabled = true;
         line.SetPosition(0, collidedMatchingIcon.holderKnob.transform.position);
-
-        // print(iconIndex);
     }
 
 
@@ -314,18 +317,29 @@ public class MatchingGameHandler : MonoBehaviour
 
     IEnumerator RemoveObjects()
     {
+
         confettiTop.Play();
         confettiButtom.Play();
 
+
+
+        while (true)
+        {
+
+            if (!AudioHandler.instance.generalAudioSource.isPlaying)
+            {
+                AudioHandler.instance.PlayConfettiSound();
+                break;
+            }
+
+            yield return null;
+        }
+        
 
         yield return new WaitForSeconds(1f);
 
 
         StartCoroutine(IconsFadeOut(1f));
-
-
-
-
 
     }
 
@@ -384,6 +398,8 @@ public class MatchingGameHandler : MonoBehaviour
 
                     temp = true;
                 }
+
+            MatchingGameGuide.instance.enabled = false;
 
             if (!temp)
                 break;

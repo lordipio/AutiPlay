@@ -28,14 +28,28 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
 
     private void Awake()
     {
-        educationButton.onClick.AddListener(() => LoadCategory("Education"));
-        farmButton.onClick.AddListener(() => LoadCategory("Farm"));
-        homeApplianceButton.onClick.AddListener(() => LoadCategory("Home Appliances"));
-        humanBodyButton.onClick.AddListener(() => LoadCategory("Human Body"));
-        natureButton.onClick.AddListener(() => LoadCategory("Nature"));
-        fruitsButton.onClick.AddListener(() => LoadCategory("Fruits"));
-        animalsButton.onClick.AddListener(() => LoadCategory("Animals"));
-        backButton.onClick.AddListener(() => UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu));
+        educationButton.onClick.AddListener(() => { StartCoroutine(LoadCategoryHandler("Education"));});
+        farmButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Farm"));});
+        homeApplianceButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Home Appliances"));});
+        humanBodyButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Human Body"));});
+        natureButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Nature"));});
+        fruitsButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Fruits"));});
+        animalsButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Animals"));});
+        backButton.onClick.AddListener(() =>{ AudioHandler.instance.PlayButtonSound(); UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu);});
+
+    }
+
+    IEnumerator LoadCategoryHandler(string category)
+    {
+        AudioHandler.instance.PlayButtonSound();
+        while (true) 
+        {
+            if (!AudioHandler.instance.generalAudioSource.isPlaying)
+                break;
+
+            yield return null;
+        }
+        LoadCategory(category);
     }
 
     private void OnEnable()

@@ -488,6 +488,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1438012460635409058, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6489983381502927800, guid: 0723830c52dad024b8766e18246885b6, type: 3}
+      propertyPath: m_Volume
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6608034737803898284, guid: 0723830c52dad024b8766e18246885b6, type: 3}
       propertyPath: m_Name
       value: AudioHandler

@@ -37,11 +37,18 @@ public class SortingGameCharacter : MonoBehaviour
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+            if (!AudioHandler.instance.generalAudioSource.isPlaying)
+                AudioHandler.instance.PlayLadybugMovementSound();
+
             animator.SetBool("IsMoving", true);
         }
 
         else
+        {
             animator.SetBool("IsMoving", false);
+            AudioHandler.instance.StopLadybugMovementSound();
+        }
 
 
         transform.Translate(direction.normalized * moveSpeed * Time.deltaTime, Space.World);

@@ -30,22 +30,46 @@ public class GamesMenu : MonoBehaviour
 
     public void OnPatternsButtonClicked()
     {
-        SceneManager.LoadScene("PatternGame");
+        // AudioHandler.instance.PlayButtonSound();
+        StartCoroutine(StartNewLevel("PatternGame"));
+
+        // SceneManager.LoadScene("PatternGame");
     }
 
     public void OnMatchingButtonClicked()
     {
+        AudioHandler.instance.PlayButtonSound();
+
         UIHandler.instance.ActivateUIMenu(UIHandler.instance.matchingGamesCategoryMenu);
     }
 
     public void OnSortingButtonClicked()
     {
-        SceneManager.LoadScene("SortingGame");
+        // AudioHandler.instance.PlayButtonSound();
+
+        StartCoroutine(StartNewLevel("SortingGame"));
+
+        // SceneManager.LoadScene("SortingGame");
     }
 
     public void OnBackButtonClicked()
     {
+        AudioHandler.instance.PlayButtonSound();
+
         UIHandler.instance.ActivateUIMenu(UIHandler.instance.mainMenu);
+    }
+
+    IEnumerator StartNewLevel(string scene)
+    {
+        AudioHandler.instance.PlayButtonSound();
+        while (true)
+        {
+            if (!AudioHandler.instance.generalAudioSource.isPlaying)
+                break;
+            yield return null;
+        }
+
+        SceneManager.LoadScene(scene);
     }
 
     private void OnEnable()

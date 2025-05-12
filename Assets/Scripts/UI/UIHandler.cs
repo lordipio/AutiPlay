@@ -25,12 +25,17 @@ public class UIHandler : MonoBehaviour
         else
             Destroy(gameObject);
 
+
+
+
         SetupMainMenuPage();
     }
 
 
     void SetupMainMenuPage()
     {
+        AudioHandler.instance.PlayMenuMusic();
+
         ScreenOrientationUtilities.SetPortrait();
 
         ActivateUIMenu(mainMenu);
@@ -49,7 +54,6 @@ public class UIHandler : MonoBehaviour
 
     public void ActivateUIMenu(GameObject menuPage)
     {
-        AudioHandler.instance.PlayButtonSound();
 
         DeactiveAll();
 

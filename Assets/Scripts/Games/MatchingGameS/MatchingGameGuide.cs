@@ -52,13 +52,17 @@ public class MatchingGameGuide : GeneralGuide
 
 
         StartCoroutine(FadeInGuidePassage(5f));
-        
         guideCursor.SetActive(true);
+
+
+
+        if (MatchingGameHandler.instance.topMatchingIcon.Count > 0 && MatchingGameHandler.instance.buttomMatchingIcon.Count > 0)
         foreach (MatchingIcon topMatchingIcon in MatchingGameHandler.instance.topMatchingIcon)
             foreach (MatchingIcon buttomMatchingIcon in MatchingGameHandler.instance.buttomMatchingIcon)
                 if (topMatchingIcon.iconIndex == buttomMatchingIcon.iconIndex)
                 { 
-                    yield return StartCoroutine(MoveCursor(topMatchingIcon.gameObject.transform.position, buttomMatchingIcon.gameObject.transform.position, 12f));
+                    if (topMatchingIcon && buttomMatchingIcon)
+                        yield return StartCoroutine(MoveCursor(topMatchingIcon.gameObject.transform.position, buttomMatchingIcon.gameObject.transform.position, 12f));
                     // yield return new WaitForSeconds(0.5f);
                     continue;
                 }

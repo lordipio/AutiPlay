@@ -57,9 +57,12 @@ public class SortingGameHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AudioHandler.instance.PlaySortingGameMusic();
+
+
         characterInitialMoveSpeed = SortingGameCharacter.instance.moveSpeed;
 
-        Color customizedBlue = new Color(0.4f, 0.4f, 1f);
+        Color customizedBlue = new Color(1.0f, 1.0f, 0f);
 
         colors = new List<Color> { customizedBlue, Color.green, Color.red, Color.blue };
         
@@ -99,7 +102,7 @@ public class SortingGameHandler : MonoBehaviour
 
         sortingIcons = new List<SortingIcon>();
 
-        Texture2D[] allTextures = SpawnUtility.LoadTextures("Fruits");
+        Texture2D[] allTextures = SpawnUtility.LoadTextures("Fruits Greyscale");
 
         List<int> texturesRandomSelection = SpawnUtility.RandomNumberGenerator(0, allTextures.Length - 1, iconsCount + 1);
 
