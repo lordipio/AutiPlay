@@ -175,9 +175,9 @@ public class SortingGameHandler : MonoBehaviour
     {
         eatingCoroutine = StartCoroutine(EatiIcon(1f));
 
-        fadeInCoroutine = StartCoroutine(FadeTransition(true));
+        yield return StartCoroutine(FadeInTransition());
 
-        yield return new WaitForSeconds(1f);
+        // yield return new WaitForSeconds(1f);
 
         if (sortingIcons.Count > 0)
             foreach (SortingIcon sortingIcon in sortingIcons)
@@ -196,7 +196,7 @@ public class SortingGameHandler : MonoBehaviour
 
         SpawnIcons();
 
-        fadeOutCoroutine = StartCoroutine(FadeTransition(false));
+        yield return StartCoroutine(FadeOutTransition());
 
     }
     IEnumerator EatiIcon(float eatingSpeed)
@@ -215,23 +215,14 @@ public class SortingGameHandler : MonoBehaviour
 
     }
 
-    IEnumerator FadeTransition(bool closing)
+    IEnumerator FadeInTransition()
     {
         while( true )
         {
-            if (currentRadius < 0 && closing)
+            if (currentRadius < 0)
             {
                 currentRadius = 0;
-                StopCoroutine(fadeInCoroutine);
-                fadeInCoroutine = null;
-                break;
-            }
-
-            if (currentRadius > maxRadius && !closing)
-            {
-                currentRadius = maxRadius;
-                StopCoroutine(fadeOutCoroutine);
-                fadeOutCoroutine = null;
+                // StopCoroutine(fadeInCoroutine);
                 break;
             }
 
@@ -250,10 +241,7 @@ public class SortingGameHandler : MonoBehaviour
 
             // آپدیت اندازه سوراخ
             float delta = transitionSpeed * Time.deltaTime / transitionTime;
-            if (closing)
-                currentRadius -= delta;
-            else
-                currentRadius += delta;
+            currentRadius -= delta;
 
 
             if (aspect < 1.4)
@@ -263,6 +251,47 @@ public class SortingGameHandler : MonoBehaviour
                 transitionMaterial.SetFloat("_Radius", currentRadius);
 
             yield return null;      
+        }
+    }
+
+
+    IEnumerator FadeOutTransition()
+    {
+        while (true)
+        {
+
+            if (currentRadius > maxRadius)
+            {
+                currentRadius = maxRadius;
+                break;
+            }
+
+
+            // نسبت عرض به ارتفاع صفحه
+            float aspect = (float)Screen.width / Screen.height;
+            transitionMaterial.SetFloat("_Aspect", aspect);
+
+            // بقیه کدت که Center و Radius رو آپدیت میکنی
+            Vector3 screenPos = Camera.main.WorldToViewportPoint(SortingGameCharacter.instance.transform.position);
+            transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
+
+            //// آپدیت مرکز سوراخ
+            //Vector3 screenPos = mainCamera.WorldToViewportPoint(target.position);
+            //transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
+
+            // آپدیت اندازه سوراخ
+            float delta = transitionSpeed * Time.deltaTime / transitionTime;
+            
+            currentRadius += delta;
+
+
+            if (aspect < 1.4)
+                transitionMaterial.SetFloat("_Radius", currentRadius * 0.75f);
+
+            else
+                transitionMaterial.SetFloat("_Radius", currentRadius);
+
+            yield return null;
         }
     }
 

@@ -21,7 +21,6 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
 
-
         GamesButton.onClick.AddListener(() => { AudioHandler.instance.PlayButtonSound(); UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu); });
         OptionButton.onClick.AddListener(() => { AudioHandler.instance.PlayButtonSound(); UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu); });
         ExitButton.onClick.AddListener(() => { AudioHandler.instance.PlayButtonSound(); Application.Quit(); });
@@ -38,7 +37,6 @@ public class MainMenu : MonoBehaviour
     {
         canvasGroup.alpha = 0f;
 
-        // صبر کن تا Layout کامل بشه
         for (int i = 0; i < 3; i++) yield return new WaitForEndOfFrame();
 
         icons.Clear();
