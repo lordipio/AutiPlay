@@ -1,4 +1,20 @@
 # AutiPlay
+🎮 Educational Game for Children on the Autism Spectrum
+
+This game was developed using the Unity engine and is designed to support the cognitive and sensory development of children on the autism spectrum. It includes three interactive stages:
+
+🔗 Matching – Find and connect related items to enhance focus and understanding of relationships
+🧩 Sorting – Categorize objects by color, shape, or size to develop classification skills
+🧠 Patterns – Identify and complete visual patterns to promote logical thinking
+
+The game features soft visuals and calming sounds to create a safe and pleasant environment tailored for children with special needs.
+
+Target Age Group: Children aged 4 to 8 on the autism spectrum
+Focus Areas: Visual perception, sequencing, and attention
+Technology: Developed in Unity using C#
+
+---
+
 🎮 **بازی آموزشی برای کودکان طیف اوتیسم**
 
 این بازی با موتور Unity توسعه داده شده و با هدف تقویت مهارت‌های شناختی و حسی کودکان طیف اوتیسم طراحی شده است. بازی شامل سه مرحله‌ی تعاملی است:
