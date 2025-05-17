@@ -30,9 +30,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Aspect: 1.3333334
-    - _Radius: 0.751256
+    - _Radius: 0.75
     - _Smoothness: 0.001
     m_Colors:
-    - _Center: {r: 0.497, g: 0.334625, b: 0, a: 0}
+    - _Center: {r: 0.49699995, g: 0.33462504, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
