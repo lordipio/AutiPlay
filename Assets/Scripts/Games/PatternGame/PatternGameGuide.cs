@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PatternGameGuide : GeneralGuide
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public static PatternGameGuide instance;
 
     Coroutine startCoroutine;
-
     bool firstRunGuide = true;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         if (instance == null)
@@ -25,11 +24,7 @@ public class PatternGameGuide : GeneralGuide
     protected override void Start()
     {
         base.Start();
-
-
         PatternGameHandler.instance.iconsFirstSpawnAction += InitGuid;
-
-        // StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, InitGuid));
     }
 
 
@@ -47,8 +42,8 @@ public class PatternGameGuide : GeneralGuide
             yield return new WaitForSeconds(1f);
             firstRunGuide = false;
         }
-        StartCoroutine(FadeInGuidePassage(5f));
 
+        StartCoroutine(FadeInGuidePassage(5f));
         guideCursor.SetActive(true);
 
         foreach (PatternIcon patternIcon in PatternGameHandler.instance.patternIcons)
@@ -59,10 +54,9 @@ public class PatternGameGuide : GeneralGuide
                     // yield return new WaitForSeconds(0.5f);
                     continue;
                 }
+
         yield return new WaitForSeconds(2f);
-
         StartCoroutine(FadeOutGuidePassage(5f));
-
         guideCursor.SetActive(false);
         startCoroutine = null;
     }

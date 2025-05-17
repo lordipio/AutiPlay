@@ -20,7 +20,6 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-
         GamesButton.onClick.AddListener(() => { AudioHandler.instance.PlayButtonSound(); UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu); });
         OptionButton.onClick.AddListener(() => { AudioHandler.instance.PlayButtonSound(); UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu); });
         ExitButton.onClick.AddListener(() => { AudioHandler.instance.PlayButtonSound(); Application.Quit(); });
@@ -29,7 +28,6 @@ public class MainMenu : MonoBehaviour
 
     private void OnEnable()
     {
-
         StartCoroutine(StartTransition());
     }
 
@@ -49,15 +47,13 @@ public class MainMenu : MonoBehaviour
         foreach (var icon in icons)
         {
             targetPositions[icon] = icon.anchoredPosition;
-
-            // موقعیت شروع پایین صفحه
             float offscreenY = -Screen.height - icon.rect.height;
             icon.anchoredPosition = new Vector2(icon.anchoredPosition.x, offscreenY);
-
-            // اضافه کردن CanvasGroup برای fade-in
             CanvasGroup cg = icon.GetComponent<CanvasGroup>();
+
             if (cg == null)
                 cg = icon.gameObject.AddComponent<CanvasGroup>();
+
             cg.alpha = 0f;
         }
 
@@ -73,11 +69,9 @@ public class MainMenu : MonoBehaviour
     {
         Vector2 startPos = icon.anchoredPosition;
         Vector2 targetPos = targetPositions[icon];
-
         CanvasGroup cg = icon.GetComponent<CanvasGroup>();
         float elapsed = 0f;
-
-        // حرکت اصلی + fade-in
+        
         while (elapsed < animationDuration)
         {
             float t = elapsed / animationDuration;
@@ -91,13 +85,14 @@ public class MainMenu : MonoBehaviour
         }
 
         icon.anchoredPosition = targetPos;
+
         if (cg != null) cg.alpha = 1f;
 
-        // Bounce بالا
         Vector2 overShoot = targetPos + new Vector2(0, bounceAmount);
         Vector2 underShoot = targetPos - new Vector2(0, bounceAmount * 0.5f);
 
         float bounceElapsed = 0f;
+
         while (bounceElapsed < bounceDuration)
         {
             float t = bounceElapsed / bounceDuration;
@@ -107,6 +102,7 @@ public class MainMenu : MonoBehaviour
         }
 
         bounceElapsed = 0f;
+
         while (bounceElapsed < bounceDuration)
         {
             float t = bounceElapsed / bounceDuration;

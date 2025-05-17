@@ -4,27 +4,20 @@ using UnityEngine;
 public class SortingGameCharacter : MonoBehaviour
 {
     public FixedJoystick joystick;
-    [SerializeField] Rigidbody2D rb;
-    
-    [SerializeField] Animator animator;
-
     public SpriteRenderer spriteRenderer;
-
-
-
     public delegate void OnCharacterCollided(Collider2D collision);
     public OnCharacterCollided onCharacterCollidedEvent;
-
-
-
     public float moveSpeed = 10f;
-
     public static SortingGameCharacter instance;
+
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] Animator animator;
     
     private void Awake()
     {
         if (!instance)
             instance = this;
+
         else
             Destroy(gameObject);
     }
@@ -50,9 +43,7 @@ public class SortingGameCharacter : MonoBehaviour
             AudioHandler.instance.StopLadybugMovementSound();
         }
 
-
         transform.Translate(direction.normalized * moveSpeed * Time.deltaTime, Space.World);
-
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         viewPos.x = Mathf.Clamp01(viewPos.x);
         viewPos.y = Mathf.Clamp01(viewPos.y);
@@ -63,6 +54,5 @@ public class SortingGameCharacter : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         onCharacterCollidedEvent?.Invoke(collision);
-
     }
 }

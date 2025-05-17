@@ -5,13 +5,12 @@ using UnityEngine.InputSystem;
 public class CentralInputHandler : MonoBehaviour
 {
     public static CentralInputHandler Instance { get; private set; }
-
-    private GameInputActions inputActions;
-    private bool isDragging = false;
-
     public event Action<Vector2> OnDrag;
     public event Action<Vector2> OnPress;
     public event Action OnRelease;
+
+    private GameInputActions inputActions;
+    private bool isDragging = false;
 
     private void Awake()
     {
@@ -20,6 +19,7 @@ public class CentralInputHandler : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         inputActions = new GameInputActions();
 
@@ -48,8 +48,10 @@ public class CentralInputHandler : MonoBehaviour
     {
         if (Touchscreen.current != null)
             return Touchscreen.current.primaryTouch.position.ReadValue();
+
         else if (Mouse.current != null)
             return Mouse.current.position.ReadValue();
+
         return Vector2.zero;
     }
 

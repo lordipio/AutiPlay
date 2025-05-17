@@ -15,6 +15,7 @@ public class LevelCounter : MonoBehaviour
         {
             instance = this;
         }
+
         else
             Destroy(instance);
     }

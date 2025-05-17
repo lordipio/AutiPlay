@@ -5,30 +5,18 @@ using System.Collections.Generic;
 
 public class AudioHandler : MonoBehaviour
 {
-
     static public AudioHandler instance;
-
-    [SerializeField] List<AudioResource> buttonClicksResources;
-
-    [SerializeField] List<AudioResource> selectSoundResources;
-    
-    [SerializeField] AudioResource menuAudioResourceMusic;
-
-    [SerializeField] AudioResource matchingGameAudioResourceMusic;
-
-    [SerializeField] AudioResource sortingGameAudioResourceMusic;
-
-    [SerializeField] AudioResource patternGameAudioResourceMusic;
-
-    [SerializeField] AudioResource confettiAudioResource;
-
-    [SerializeField] AudioResource ladybugMovementAudioResource;
-
-
     public AudioSource generalAudioSource;
-
     public AudioSource musicAudioSource;
 
+    [SerializeField] List<AudioResource> buttonClicksResources;
+    [SerializeField] List<AudioResource> selectSoundResources;
+    [SerializeField] AudioResource menuAudioResourceMusic;
+    [SerializeField] AudioResource matchingGameAudioResourceMusic;
+    [SerializeField] AudioResource sortingGameAudioResourceMusic;
+    [SerializeField] AudioResource patternGameAudioResourceMusic;
+    [SerializeField] AudioResource confettiAudioResource;
+    [SerializeField] AudioResource ladybugMovementAudioResource;
 
     private void Awake()
     {
@@ -36,16 +24,6 @@ public class AudioHandler : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void PlayButtonSound()

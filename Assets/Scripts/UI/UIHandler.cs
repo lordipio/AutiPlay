@@ -5,14 +5,10 @@ using static MatchingGamesCategoryMenu;
 
 public class UIHandler : MonoBehaviour
 {
-    public GameObject mainMenu;
-
-    public GameObject gamesMenu;
-
-    public GameObject matchingGamesCategoryMenu;
-
-
     public static UIHandler instance;
+    public GameObject mainMenu;
+    public GameObject gamesMenu;
+    public GameObject matchingGamesCategoryMenu;
 
     [HideInInspector] public string matchingGameCategoryName = "";
 
@@ -24,10 +20,7 @@ public class UIHandler : MonoBehaviour
 
         else
             Destroy(gameObject);
-
-
-
-
+        
         SetupMainMenuPage();
     }
 
@@ -35,9 +28,7 @@ public class UIHandler : MonoBehaviour
     void SetupMainMenuPage()
     {
         AudioHandler.instance.PlayMenuMusic();
-
         ScreenOrientationUtilities.SetPortrait();
-
         ActivateUIMenu(mainMenu);
     }
 
@@ -45,18 +36,14 @@ public class UIHandler : MonoBehaviour
     public void DeactiveAll()
     {
         mainMenu.gameObject.SetActive(false);
-
         gamesMenu.gameObject.SetActive(false);
-
         matchingGamesCategoryMenu.gameObject.SetActive(false);
     }
 
 
     public void ActivateUIMenu(GameObject menuPage)
     {
-
         DeactiveAll();
-
         menuPage.SetActive(true);
     }
 

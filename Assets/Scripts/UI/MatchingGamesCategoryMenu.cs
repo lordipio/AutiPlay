@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class MatchingGamesCategoryMenu : MonoBehaviour
 {
+    public float animationDuration = 0.05f;
+    public float delayBetween = 0.01f;
+    public float bounceAmount = 10f;
+    public float bounceDuration = 0.1f;
+
     [SerializeField] Button educationButton;
     [SerializeField] Button farmButton;
     [SerializeField] Button homeApplianceButton;
@@ -17,14 +22,8 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] ScrollRect scrollRect;
 
-
     private List<RectTransform> buttons = new List<RectTransform>();
     private Dictionary<RectTransform, Vector2> targetPositions = new Dictionary<RectTransform, Vector2>();
-
-    public float animationDuration = 0.05f;
-    public float delayBetween = 0.01f;
-    public float bounceAmount = 10f;
-    public float bounceDuration = 0.1f;
 
     private void Awake()
     {
@@ -36,7 +35,6 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
         fruitsButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Fruits"));});
         animalsButton.onClick.AddListener(() =>{ StartCoroutine(LoadCategoryHandler("Animals"));});
         backButton.onClick.AddListener(() =>{ AudioHandler.instance.PlayButtonSound(); UIHandler.instance.ActivateUIMenu(UIHandler.instance.gamesMenu);});
-
     }
 
     IEnumerator LoadCategoryHandler(string category)
@@ -49,6 +47,7 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
 
             yield return null;
         }
+
         LoadCategory(category);
     }
 
@@ -72,7 +71,6 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
 
         buttons.Clear();
         targetPositions.Clear();
-
         Button[] buttonArray = { backButton, animalsButton, educationButton, farmButton, homeApplianceButton, humanBodyButton, natureButton, fruitsButton };
 
         foreach (var btn in buttonArray)
@@ -80,12 +78,13 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
             var rect = btn.GetComponent<RectTransform>();
             buttons.Add(rect);
             targetPositions[rect] = rect.anchoredPosition;
-
             float offscreenY = -Screen.height - rect.rect.height;
             rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, offscreenY);
 
             var cg = btn.GetComponent<CanvasGroup>();
+
             if (cg == null) cg = btn.gameObject.AddComponent<CanvasGroup>();
+
             cg.alpha = 0f;
         }
 
@@ -101,7 +100,6 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
     {
         Vector2 startPos = icon.anchoredPosition;
         Vector2 targetPos = targetPositions[icon];
-
         CanvasGroup cg = icon.GetComponent<CanvasGroup>();
         float elapsed = 0f;
 
@@ -116,13 +114,13 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
         }
 
         icon.anchoredPosition = targetPos;
+
         if (cg != null) cg.alpha = 1f;
 
-        // Bounce
         Vector2 overShoot = targetPos + new Vector2(0, bounceAmount);
         Vector2 underShoot = targetPos - new Vector2(0, bounceAmount * 0.5f);
-
         float bounceElapsed = 0f;
+
         while (bounceElapsed < bounceDuration)
         {
             float t = bounceElapsed / bounceDuration;
@@ -132,6 +130,7 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
         }
 
         bounceElapsed = 0f;
+
         while (bounceElapsed < bounceDuration)
         {
             float t = bounceElapsed / bounceDuration;

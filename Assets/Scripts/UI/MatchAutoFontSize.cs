@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
-
 public class MatchAutoFontSize : MonoBehaviour
 {
     public TMP_Text[] texts;
-
     void Awake()
     {
         StartCoroutine(SetFontsSize());

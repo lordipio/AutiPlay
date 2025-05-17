@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-
 public class MatchingGameGuide : GeneralGuide
 {
     public static MatchingGameGuide instance;
 
     Coroutine startCoroutine;
-
     bool firstRunGuide = true;
 
     private void Awake()
@@ -19,21 +17,11 @@ public class MatchingGameGuide : GeneralGuide
             Destroy(instance);
     }
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
-
-
         MatchingGameHandler.instance.iconsFirstSpawnAction += InitGuid;
-
-        // StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, InitGuid));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     public void InitGuid()
@@ -50,11 +38,8 @@ public class MatchingGameGuide : GeneralGuide
             firstRunGuide = false;
         }
 
-
         StartCoroutine(FadeInGuidePassage(5f));
         guideCursor.SetActive(true);
-
-
 
         if (MatchingGameHandler.instance.topMatchingIcon.Count > 0 && MatchingGameHandler.instance.buttomMatchingIcon.Count > 0)
         foreach (MatchingIcon topMatchingIcon in MatchingGameHandler.instance.topMatchingIcon)
@@ -63,12 +48,11 @@ public class MatchingGameGuide : GeneralGuide
                 { 
                     if (topMatchingIcon && buttomMatchingIcon)
                         yield return StartCoroutine(MoveCursor(topMatchingIcon.gameObject.transform.position, buttomMatchingIcon.gameObject.transform.position, 12f));
-                    // yield return new WaitForSeconds(0.5f);
+                    
                     continue;
                 }
 
         StartCoroutine(FadeOutGuidePassage(5f));
-
         guideCursor.SetActive(false);
         startCoroutine = null;
     }

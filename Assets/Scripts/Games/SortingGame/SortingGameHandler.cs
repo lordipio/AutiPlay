@@ -6,43 +6,27 @@ using System;
 
 public class SortingGameHandler : MonoBehaviour
 {
-
+    public Action iconsFirstSpawnAction;
+    public static SortingGameHandler instance;
+    public SortingIcon targetIcon;
     public Material transitionMaterial;
     public float transitionTime = 4f;
-
     public float transitionSpeed = 4f;
 
-    private float currentRadius = 1.0f;
-
-    private float maxRadius = 1.0f;
-
-    // private bool closing = true;
-
-    Coroutine fadeInCoroutine;
-
-    Coroutine fadeOutCoroutine;
-
-    Coroutine eatingCoroutine;
-
     [SerializeField] GameObject matchingIconGO;
-
     [SerializeField] const int iconsCount = 4;
 
-    List<SortingIcon> sortingIcons = new List<SortingIcon>();
+    private float currentRadius = 1.0f;
+    private float maxRadius = 1.0f;
 
-    List<Color> colors = new List<Color>();
-
-    public SortingIcon targetIcon;
-
+    Coroutine fadeInCoroutine;
+    Coroutine fadeOutCoroutine;
+    Coroutine eatingCoroutine;
     Coroutine collideCoroutine;
-
-    float characterInitialMoveSpeed;
-
+    List<SortingIcon> sortingIcons = new List<SortingIcon>();
+    List<Color> colors = new List<Color>();
     Vector3 characterInitialPosition;
-
-    public static SortingGameHandler instance;
-
-    public Action iconsFirstSpawnAction;
+    float characterInitialMoveSpeed;
     bool isFirstRun = true;
 
     private void Awake()
@@ -58,18 +42,11 @@ public class SortingGameHandler : MonoBehaviour
     void Start()
     {
         AudioHandler.instance.PlaySortingGameMusic();
-
-
         characterInitialMoveSpeed = SortingGameCharacter.instance.moveSpeed;
-
         Color customizedBlue = new Color(1.0f, 1.0f, 0f);
-
         colors = new List<Color> { customizedBlue, Color.green, Color.red, Color.blue };
-        
         characterInitialPosition = SortingGameCharacter.instance.transform.position;
-
         StartCoroutine(AdjustCamera.instance.SetOrientationAndWait(ScreenOrientation.LandscapeLeft, SpawnIcons));
-
     }
 
     private void Update()
@@ -80,9 +57,7 @@ public class SortingGameHandler : MonoBehaviour
 
     private void SpawnIcons()
     {
-         SortingGameCharacter.instance.moveSpeed = characterInitialMoveSpeed;
-
-
+        SortingGameCharacter.instance.moveSpeed = characterInitialMoveSpeed;
         float aspect = (float)Screen.width / Screen.height;
         transitionMaterial.SetFloat("_Aspect", aspect);
 
@@ -93,21 +68,13 @@ public class SortingGameHandler : MonoBehaviour
             transitionMaterial.SetFloat("_Radius", currentRadius);
 
         targetIcon = null;
-
         List<Vector2> Positions = SpawnUtility.GetUpDividedPositions(iconsCount);
-
         GameObject tempSortingIconGO;
-
         SortingIcon tempSortingIcon;
-
         sortingIcons = new List<SortingIcon>();
-
         Texture2D[] allTextures = SpawnUtility.LoadTextures("Fruits Greyscale");
-
         List<int> texturesRandomSelection = SpawnUtility.RandomNumberGenerator(0, allTextures.Length - 1, iconsCount + 1);
-
         List<int> randomColorIndex = SpawnUtility.RandomNumberGenerator(0, 4, 4);
-
         List<Texture2D> textures = new List<Texture2D>();
 
         foreach (int i in texturesRandomSelection)
@@ -116,28 +83,20 @@ public class SortingGameHandler : MonoBehaviour
         }
 
         int temp = 0;
-            
-
         int targetIconIndex = randomColorIndex[UnityEngine.Random.Range(0, 4)];
-
 
         foreach (Vector2 position in Positions)
         {
             tempSortingIconGO = Instantiate<GameObject>(matchingIconGO, position, Quaternion.identity);
-
             tempSortingIcon = tempSortingIconGO.GetComponent<SortingIcon>();
-
             Texture2D tex = textures[temp];
-
             tempSortingIcon.spriteRenderer.sprite = Sprite.Create(
             tex,
             new Rect(0, 0, tex.width, tex.height),
             new Vector2(0.5f, 0.5f));
-
             tempSortingIcon.spriteRenderer.color = colors[randomColorIndex[temp]];
-
             sortingIcons.Add(tempSortingIcon);
-
+            
             if (randomColorIndex[temp] == targetIconIndex)
                 targetIcon = tempSortingIcon;
 
@@ -149,7 +108,6 @@ public class SortingGameHandler : MonoBehaviour
         }
 
         SortingGameCharacter.instance.spriteRenderer.color = colors[targetIconIndex];
-
         SortingGameCharacter.instance.onCharacterCollidedEvent += OnCharacterCollided;
 
         if (isFirstRun)
@@ -174,11 +132,8 @@ public class SortingGameHandler : MonoBehaviour
     IEnumerator RemoveObjects()
     {
         eatingCoroutine = StartCoroutine(EatiIcon(1f));
-
         yield return StartCoroutine(FadeInTransition());
-
-        // yield return new WaitForSeconds(1f);
-
+        
         if (sortingIcons.Count > 0)
             foreach (SortingIcon sortingIcon in sortingIcons)
             {
@@ -186,20 +141,12 @@ public class SortingGameHandler : MonoBehaviour
             }
 
         collideCoroutine = null;
-
-        // StopCoroutine(fadeInCoroutine);
-        
-        // fadeInCoroutine = null;
-
-
         SortingGameCharacter.instance.transform.position = characterInitialPosition;
-
         SpawnIcons();
-
         LevelCounter.instance.LevelUp();
-
         yield return StartCoroutine(FadeOutTransition());
     }
+
     IEnumerator EatiIcon(float eatingSpeed)
     {
         while(true)
@@ -213,7 +160,6 @@ public class SortingGameHandler : MonoBehaviour
             yield return null;
 
         }
-
     }
 
     IEnumerator FadeInTransition()
@@ -223,30 +169,18 @@ public class SortingGameHandler : MonoBehaviour
             if (currentRadius < 0)
             {
                 currentRadius = 0;
-                // StopCoroutine(fadeInCoroutine);
                 break;
             }
-
-
-            // نسبت عرض به ارتفاع صفحه
+            
             float aspect = (float)Screen.width / Screen.height;
             transitionMaterial.SetFloat("_Aspect", aspect);
-        
-            // بقیه کدت که Center و Radius رو آپدیت میکنی
             Vector3 screenPos = Camera.main.WorldToViewportPoint(SortingGameCharacter.instance.transform.position);
             transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
-
-            //// آپدیت مرکز سوراخ
-            //Vector3 screenPos = mainCamera.WorldToViewportPoint(target.position);
-            //transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
-
-            // آپدیت اندازه سوراخ
             float delta = transitionSpeed * Time.deltaTime / transitionTime;
             currentRadius -= delta;
 
-
             if (aspect < 1.4)
-            transitionMaterial.SetFloat("_Radius", currentRadius * 0.75f);
+                transitionMaterial.SetFloat("_Radius", currentRadius * 0.75f);
 
             else
                 transitionMaterial.SetFloat("_Radius", currentRadius);
@@ -255,36 +189,22 @@ public class SortingGameHandler : MonoBehaviour
         }
     }
 
-
     IEnumerator FadeOutTransition()
     {
         while (true)
         {
-
             if (currentRadius > maxRadius)
             {
                 currentRadius = maxRadius;
                 break;
             }
 
-
-            // نسبت عرض به ارتفاع صفحه
             float aspect = (float)Screen.width / Screen.height;
             transitionMaterial.SetFloat("_Aspect", aspect);
-
-            // بقیه کدت که Center و Radius رو آپدیت میکنی
             Vector3 screenPos = Camera.main.WorldToViewportPoint(SortingGameCharacter.instance.transform.position);
             transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
-
-            //// آپدیت مرکز سوراخ
-            //Vector3 screenPos = mainCamera.WorldToViewportPoint(target.position);
-            //transitionMaterial.SetVector("_Center", new Vector4(screenPos.x, screenPos.y, 0, 0));
-
-            // آپدیت اندازه سوراخ
             float delta = transitionSpeed * Time.deltaTime / transitionTime;
-            
             currentRadius += delta;
-
 
             if (aspect < 1.4)
                 transitionMaterial.SetFloat("_Radius", currentRadius * 0.75f);
