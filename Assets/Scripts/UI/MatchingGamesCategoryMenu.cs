@@ -73,7 +73,7 @@ public class MatchingGamesCategoryMenu : MonoBehaviour
         buttons.Clear();
         targetPositions.Clear();
 
-        Button[] buttonArray = { animalsButton, educationButton, farmButton, homeApplianceButton, humanBodyButton, natureButton, fruitsButton, backButton };
+        Button[] buttonArray = { backButton, animalsButton, educationButton, farmButton, homeApplianceButton, humanBodyButton, natureButton, fruitsButton };
 
         foreach (var btn in buttonArray)
         {

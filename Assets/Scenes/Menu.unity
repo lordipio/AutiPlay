@@ -847,15 +847,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 274658046640157763, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1084
+      value: 919.5
       objectReference: {fileID: 0}
     - target: {fileID: 274658046640157763, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 659.3334
+      value: 93.125
       objectReference: {fileID: 0}
     - target: {fileID: 274658046640157763, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 542
+      value: 459.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 274658046640157763, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -46.5625
       objectReference: {fileID: 0}
     - target: {fileID: 2410966074262582590, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_AnchorMax.y
@@ -971,19 +975,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4444888813609321465, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1084
+      value: 919.5
       objectReference: {fileID: 0}
     - target: {fileID: 4444888813609321465, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 659.3334
+      value: 93.125
       objectReference: {fileID: 0}
     - target: {fileID: 4444888813609321465, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 542
+      value: 459.75
       objectReference: {fileID: 0}
     - target: {fileID: 4444888813609321465, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2578
+      value: -139.6875
       objectReference: {fileID: 0}
     - target: {fileID: 6022356444822710405, guid: 1c241bcb0a772c74cbb9e1a1ecdd95dc, type: 3}
       propertyPath: m_Enabled

@@ -812,6 +812,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 496425344731348973}
   - {fileID: 608060723600582858}
   - {fileID: 8131507968634404864}
   - {fileID: 1322442284427325146}
@@ -819,7 +820,6 @@ RectTransform:
   - {fileID: 3160074312504998723}
   - {fileID: 465760553082304171}
   - {fileID: 3799974021852952957}
-  - {fileID: 496425344731348973}
   m_Father: {fileID: 8406404410577039203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1101,7 +1101,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
+  m_fontSize: 179.35
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.59607846, g: 1, b: 0.9411765, a: 1}
+  m_Color: {r: 0.6627451, g: 1, b: 0.49803922, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1977,7 +1977,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
+  m_fontSize: 179.35
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2935,7 +2935,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8464080448099273530}
   m_Direction: 2
   m_Value: 0.99999994
-  m_Size: 0.38042432
+  m_Size: 0.12887181
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

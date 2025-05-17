@@ -435,10 +435,13 @@ public class MatchingGameHandler : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
 
         confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        
+        LevelCounter.instance.LevelUp();
+
         SpawnIcons();
     }
 

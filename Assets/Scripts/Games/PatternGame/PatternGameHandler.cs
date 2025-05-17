@@ -34,7 +34,7 @@ public class PatternGameHandler : MonoBehaviour
     public Action iconsFirstSpawnAction;
     bool isFirstRun = true;
 
-    float[] iconsAlpha = {1f, 0.6f, 0.2f, 0.0f };
+    float[] iconsAlpha = {1f, 0.6f, 0.3f, 0.1f };
 
 private void Awake()
     {
@@ -255,17 +255,19 @@ private void Awake()
 
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(IconsFadeOut(2f));
+        yield return StartCoroutine(IconsFadeOut(2f));
 
 
 
 
-        yield return new WaitForSeconds(1f);
+        // yield return new WaitForSeconds(1f);
 
         confettiTop.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         confettiButtom.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
         SpawnIcons();
+
+        LevelCounter.instance.LevelUp();
     }
 
     IEnumerator IconsFadeOut(float alphaReductionSpeed)

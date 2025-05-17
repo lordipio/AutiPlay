@@ -196,8 +196,9 @@ public class SortingGameHandler : MonoBehaviour
 
         SpawnIcons();
 
-        yield return StartCoroutine(FadeOutTransition());
+        LevelCounter.instance.LevelUp();
 
+        yield return StartCoroutine(FadeOutTransition());
     }
     IEnumerator EatiIcon(float eatingSpeed)
     {
